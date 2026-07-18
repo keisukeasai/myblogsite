@@ -10,16 +10,42 @@ export const site = {
   label: 'GADGET & INTERIOR MEDIA',
   locale: 'ja_JP',
   lang: 'ja',
+
+  // 運営者(Founder)
   author: {
-    name: 'タカヒロ',
-    url: '/about',
+    name: 'タカヒロ', // TODO: 実名 or ハンドルに変更
+    role: '編集長 / かえりたくなる部屋 運営者',
+    url: '/founder',
   },
-  // お問い合わせ先。メールまたはフォームURLのどちらかを設定すると
-  // お問い合わせページにボタンが表示される(未設定なら準備中の案内を表示)。
+
+  // SNS・外部導線。値を入れると各所にリンクが表示される(空なら非表示)。
+  social: {
+    x: '', // 例: 'https://x.com/xxxx'
+    instagram: '', // 例: 'https://www.instagram.com/xxxx'
+    youtube: '', // 例: 'https://www.youtube.com/@xxxx'
+    rakutenRoom: '', // 例: 'https://room.rakuten.co.jp/xxxx'
+  },
+
+  // お問い合わせ先(メール or フォームURL)。空なら準備中表示。
   contact: {
-    email: '', // 例: 'hello@example.com'
-    formUrl: '', // 例: Google フォーム等のURL
+    email: '',
+    formUrl: '',
   },
 } as const;
+
+// SNSリンクを配列で取得(設定済みのものだけ)
+export type SocialKey = 'x' | 'instagram' | 'youtube' | 'rakutenRoom';
+export const socialMeta: Record<SocialKey, { label: string; emoji: string }> = {
+  x: { label: 'X (Twitter)', emoji: '𝕏' },
+  instagram: { label: 'Instagram', emoji: '📷' },
+  youtube: { label: 'YouTube', emoji: '▶' },
+  rakutenRoom: { label: '楽天ROOM', emoji: '🛋️' },
+};
+
+export function activeSocials(): { key: SocialKey; url: string; label: string; emoji: string }[] {
+  return (Object.keys(socialMeta) as SocialKey[])
+    .filter((k) => site.social[k].length > 0)
+    .map((k) => ({ key: k, url: site.social[k], ...socialMeta[k] }));
+}
 
 // 本番URLは astro.config.mjs の `site` を単一の情報源とする(Astro.site を参照)。
