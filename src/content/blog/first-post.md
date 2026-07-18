@@ -3,8 +3,8 @@ title: はじめまして。「かえりたくなる部屋」を始めます。
 description: ブログ開設のごあいさつ。このブログで発信していくことと、レビューで大切にしたいことについて。
 pubDate: 2026-07-18
 tags: ["はじめに", "ブログ運営"]
-image: ./images/first-post-cover.svg
-imageAlt: 「かえりたくなる部屋」開設のイメージ
+image: ./images/first-post-cover.png
+imageAlt: 「かえりたくなる部屋」を始めます。ガジェットとインテリアで、毎日を少し心地よく。
 ---
 
 毎日の仕事や家事を終えて、家に帰る。

@@ -32,18 +32,23 @@ const gradient = pickGradient(post.id);
 <BaseLayout title={`${post.data.title} | かえりたくなる部屋`} description={post.data.description}>
   <article class="mx-auto max-w-3xl">
     <!-- バナー -->
-    <div class="relative aspect-[3/1] overflow-hidden rounded-3xl">
-      {cover ? (
-        <Image src={cover} alt={post.data.imageAlt ?? ''} loading="eager" fetchpriority="high" class="h-full w-full object-cover" />
-      ) : (
-        <div class={`flex h-full w-full items-center justify-center bg-gradient-to-br ${gradient}`}>
-          <span aria-hidden="true" class="select-none font-display text-9xl font-black italic text-white/25">
-            {post.data.title.charAt(0)}
-          </span>
-          <div class="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(255,255,255,0.25),transparent_45%)]"></div>
-        </div>
-      )}
-    </div>
+    {cover ? (
+      <Image
+        src={cover}
+        alt={post.data.imageAlt ?? ''}
+        loading="eager"
+        fetchpriority="high"
+        class="w-full rounded-3xl"
+      />
+    ) : (
+      <div class="relative flex aspect-[3/1] items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br">
+        <div class={`absolute inset-0 bg-gradient-to-br ${gradient}`}></div>
+        <span aria-hidden="true" class="relative select-none font-display text-9xl font-black italic text-white/25">
+          {post.data.title.charAt(0)}
+        </span>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(255,255,255,0.25),transparent_45%)]"></div>
+      </div>
+    )}
 
     <header class="mt-8">
       <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
