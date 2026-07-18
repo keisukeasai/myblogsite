@@ -1,0 +1,14 @@
+{
+  "name": "かえりたくなる部屋",
+  "short_name": "かえりたくなる部屋",
+  "description": "ガジェットとインテリアで、毎日の暮らしを少し心地よく。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#faf9f5",
+  "theme_color": "#faf9f5",
+  "lang": "ja",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

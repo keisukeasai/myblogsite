@@ -27,7 +27,9 @@ const {
 
 const siteUrl = Astro.site ?? new URL('http://localhost:4321');
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
-const ogImage = image ? new URL(image, siteUrl).href : undefined;
+// OG画像は指定があればそれ、なければブランド既定OGにフォールバック(全ページで確保)
+const ogImage = new URL(image ?? '/og-default.png', siteUrl).href;
+const ogImageAlt = imageAlt ?? `${site.name} — ${site.tagline}`;
 
 // 全ページ共通の構造化データ(WebSite + Organization)
 const baseJsonLd: Record<string, unknown>[] = [
@@ -69,8 +71,13 @@ const graph = [...baseJsonLd, ...jsonLd];
   )
 }
 
-<!-- アイコン / フィード -->
+<!-- アイコン / マニフェスト / フィード -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="manifest" href="/site.webmanifest" />
+<meta name="theme-color" content="#faf9f5" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#191817" media="(prefers-color-scheme: dark)" />
 <link rel="alternate" type="application/rss+xml" title={site.name} href={new URL('rss.xml', siteUrl).href} />
 <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -81,14 +88,16 @@ const graph = [...baseJsonLd, ...jsonLd];
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:locale" content={site.locale} />
-{ogImage && <meta property="og:image" content={ogImage} />}
-{ogImage && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+<meta property="og:image" content={ogImage} />
+{!image && <meta property="og:image:width" content="1200" />}
+{!image && <meta property="og:image:height" content="630" />}
+<meta property="og:image:alt" content={ogImageAlt} />
 
 <!-- Twitter Card -->
-<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
-{ogImage && <meta name="twitter:image" content={ogImage} />}
+<meta name="twitter:image" content={ogImage} />
 
 <!-- 構造化データ(JSON-LD) -->
 {
