@@ -41,6 +41,17 @@
 - **決定**: `PROJECT.md` を軽量なハブ（索引）として残し、詳細を `docs/` に分割（BRAND_GUIDELINES / EDITORIAL_GUIDE / ROADMAP / CHANGELOG / DECISIONS）。
 - **理由**: 種類ごとに更新でき、可読性・保守性が上がる。ロードマップと決定の履歴を分離。
 
+## D-007: Sprint 1 は「Version 1.0 公開品質」を目標に、コンポーネント設計を優先
+- **日付**: 2026-07-19
+- **背景**: 100記事以上の長期運営を前提に、単発の実装ではなく再利用可能な仕組みが必要。
+- **決定**:
+  - `/about` を `/founder` に統合（人と理由でE-E-A-Tを強化）。
+  - プレースホルダの開発メモ記事2本を撤去（ブランド品質のため）。看板記事は content トラックで追加。
+  - 記事テンプレートを再利用コンポーネント化（目次 / 関連記事 / 著者カード / CTA ＋ MDX用 Callout / Figure / ProductCard）。
+  - ブランドアセットは `scripts/gen-brand-assets.mjs`（sharp）で元SVGから再生成可能に。
+  - Analytics（Cloudflare / Search Console）は公開前P1へ後ろ倒し。
+- **理由**: 執筆者（ChatGPT編集長含む）が迷わず量産でき、ブランド体験を崩さないため。
+
 ---
 
 > 新しい決定は D-00N を追記し、日付・背景・決定・理由（必要なら可逆性）を書く。
