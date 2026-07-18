@@ -1,0 +1,29 @@
+---
+import SocialLinks from './SocialLinks.astro';
+import { site, activeSocials } from '../data/site';
+
+const hasSocial = activeSocials().length > 0;
+---
+
+<aside class="mt-14 rounded-2xl border border-line bg-surface p-6 dark:border-night-line dark:bg-night-surface">
+  <div class="flex items-start gap-4">
+    <a
+      href="/founder"
+      class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-100 text-xl dark:bg-night-line"
+      aria-label={`${site.author.name}のプロフィール`}
+    >
+      🌿
+    </a>
+    <div class="min-w-0">
+      <p class="text-xs font-medium uppercase tracking-wider text-ink-500 dark:text-cream-dim">この記事を書いた人</p>
+      <p class="mt-0.5 font-bold text-ink-900 dark:text-cream">
+        <a href="/founder" class="transition hover:text-accent-700 dark:hover:text-accent-300">{site.author.name}</a>
+      </p>
+      <p class="mt-2 text-sm leading-relaxed text-ink-600 dark:text-cream-dim">
+        {site.name} 編集長。「便利だから」ではなく“毎日が少し心地よくなるか”を基準に、
+        使ってよかったモノと部屋づくりを綴っています。
+      </p>
+      {hasSocial && <SocialLinks variant="icon" class="mt-3" />}
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,26 @@
+---
+// 記事中の補足ボックス。MDXで <Callout type="tip">...</Callout> のように使う。
+interface Props {
+  type?: 'note' | 'tip' | 'point' | 'warning';
+  title?: string;
+}
+
+const { type = 'note', title } = Astro.props;
+
+const styles = {
+  note: { emoji: '📝', label: 'メモ', ring: 'border-line bg-surface dark:border-night-line dark:bg-night-surface' },
+  tip: { emoji: '💡', label: 'ヒント', ring: 'border-accent-200 bg-accent-50 dark:border-accent-700 dark:bg-night-surface' },
+  point: { emoji: '✅', label: 'ポイント', ring: 'border-accent-200 bg-accent-50 dark:border-accent-700 dark:bg-night-surface' },
+  warning: { emoji: '⚠️', label: '注意', ring: 'border-amber-200 bg-amber-50 dark:border-amber-800/60 dark:bg-night-surface' },
+}[type];
+---
+
+<div class:list={['not-prose my-8 rounded-2xl border p-5', styles.ring]}>
+  <p class="flex items-center gap-2 text-sm font-bold text-ink-900 dark:text-cream">
+    <span aria-hidden="true">{styles.emoji}</span>
+    {title ?? styles.label}
+  </p>
+  <div class="mt-2 text-sm leading-loose text-ink-700 dark:text-cream-dim [&>*+*]:mt-3 [&_a]:text-accent-700 [&_a]:underline [&_a]:underline-offset-2 dark:[&_a]:text-accent-300">
+    <slot />
+  </div>
+</div>

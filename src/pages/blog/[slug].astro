@@ -4,6 +4,10 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import CategoryBadge from '../../components/CategoryBadge.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+import ArticleCta from '../../components/ArticleCta.astro';
+import AuthorCard from '../../components/AuthorCard.astro';
+import RelatedPosts from '../../components/RelatedPosts.astro';
 import { getCategory } from '../../data/categories';
 import { site } from '../../data/site';
 
@@ -16,30 +20,29 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 
-const sorted = (await getCollection('blog')).sort(
+const allPosts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
-const index = sorted.findIndex((p) => p.id === post.id);
-const newerPost = index > 0 ? sorted[index - 1] : null;
-const olderPost = index < sorted.length - 1 ? sorted[index + 1] : null;
+const index = allPosts.findIndex((p) => p.id === post.id);
+const newerPost = index > 0 ? allPosts[index - 1] : null;
+const olderPost = index < allPosts.length - 1 ? allPosts[index + 1] : null;
 
 const readingMinutes = Math.max(1, Math.ceil((post.body?.length ?? 0) / 500));
 const cover = post.data.image;
 const cat = getCategory(post.data.category);
+const updated = post.data.updatedDate;
 
 const siteUrl = Astro.site ?? new URL('http://localhost:4321');
 const pageUrl = new URL(Astro.url.pathname, siteUrl).href;
 
-// OGP画像(アイキャッチを最適化して絶対URL化)
 let ogImage: string | undefined;
 if (cover) {
   const optimized = await getImage({ src: cover, width: 1200 });
   ogImage = optimized.src;
 }
 
-// 構造化データ
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -48,9 +51,9 @@ const jsonLd = [
     description: post.data.description,
     inLanguage: site.lang,
     datePublished: post.data.pubDate.toISOString(),
-    dateModified: post.data.pubDate.toISOString(),
+    dateModified: (updated ?? post.data.pubDate).toISOString(),
     ...(ogImage ? { image: new URL(ogImage, siteUrl).href } : {}),
-    author: { '@type': 'Person', name: site.author.name },
+    author: { '@type': 'Person', name: site.author.name, url: new URL('/founder', siteUrl).href },
     publisher: { '@id': `${siteUrl.href}#organization` },
     mainEntityOfPage: pageUrl,
     articleSection: cat?.name,
@@ -66,6 +69,8 @@ const jsonLd = [
     ],
   },
 ];
+
+const dateFmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <BaseLayout
@@ -76,7 +81,8 @@ const jsonLd = [
   type="article"
   jsonLd={jsonLd}
 >
-  <article class="mx-auto max-w-reading">
+  <!-- ヘッダー部(リーディング幅) -->
+  <div class="mx-auto max-w-reading">
     <Breadcrumb
       items={[
         { name: 'ホーム', href: '/' },
@@ -85,7 +91,6 @@ const jsonLd = [
       ]}
     />
 
-    <!-- アイキャッチ -->
     {
       cover ? (
         <Image
@@ -99,9 +104,7 @@ const jsonLd = [
         />
       ) : (
         <div class="flex aspect-[16/9] items-center justify-center rounded-3xl bg-accent-50 dark:bg-night-surface">
-          <span aria-hidden="true" class="select-none text-7xl opacity-25 grayscale">
-            {cat?.emoji}
-          </span>
+          <span aria-hidden="true" class="select-none text-7xl opacity-25 grayscale">{cat?.emoji}</span>
         </div>
       )
     }
@@ -114,9 +117,8 @@ const jsonLd = [
         >
           <CategoryBadge slug={post.data.category} />
         </a>
-        <time datetime={post.data.pubDate.toISOString()} class="font-medium">
-          {post.data.pubDate.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
-        </time>
+        <time datetime={post.data.pubDate.toISOString()} class="font-medium">{dateFmt(post.data.pubDate)}</time>
+        {updated && <span class="text-ink-500 dark:text-cream-dim">(更新: {dateFmt(updated)})</span>}
         <span aria-hidden="true">·</span>
         <span>約{readingMinutes}分で読めます</span>
       </div>
@@ -135,14 +137,38 @@ const jsonLd = [
         )
       }
     </header>
+  </div>
 
-    <div
-      class="prose prose-neutral mt-12 max-w-none leading-loose dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-h2:mt-14 prose-h2:border-b prose-h2:border-line prose-h2:pb-3 prose-a:text-accent-700 prose-a:decoration-accent-300 prose-blockquote:border-l-accent-300 prose-blockquote:text-ink-600 prose-code:rounded prose-code:bg-accent-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:font-normal prose-code:before:content-none prose-code:after:content-none prose-img:rounded-2xl dark:prose-a:text-accent-300 dark:prose-h2:border-night-line dark:prose-code:bg-night-surface dark:prose-blockquote:text-cream-dim"
-    >
-      <Content />
+  <!-- 本文 + 目次(デスクトップは追従サイドバー) -->
+  <div class="mx-auto mt-12 grid max-w-6xl grid-cols-1 gap-12 lg:grid-cols-[minmax(0,44rem)_14rem] lg:justify-center">
+    <div class="min-w-0">
+      <!-- モバイル目次 -->
+      <details class="mb-8 rounded-2xl border border-line bg-surface p-5 lg:hidden dark:border-night-line dark:bg-night-surface" open>
+        <summary class="cursor-pointer font-display text-xs font-semibold uppercase tracking-[0.15em] text-accent-600 dark:text-accent-300">
+          目次
+        </summary>
+        <div class="mt-3">
+          <TableOfContents headings={headings} showTitle={false} />
+        </div>
+      </details>
+
+      <div class="prose prose-neutral max-w-none leading-loose dark:prose-invert prose-headings:font-bold prose-headings:tracking-tight prose-headings:scroll-mt-24 prose-h2:mt-14 prose-h2:border-b prose-h2:border-line prose-h2:pb-3 prose-a:text-accent-700 prose-a:decoration-accent-300 prose-blockquote:border-l-accent-300 prose-blockquote:text-ink-600 prose-code:rounded prose-code:bg-accent-50 prose-code:px-1.5 prose-code:py-0.5 prose-code:font-normal prose-code:before:content-none prose-code:after:content-none prose-img:rounded-2xl dark:prose-a:text-accent-300 dark:prose-h2:border-night-line dark:prose-code:bg-night-surface dark:prose-blockquote:text-cream-dim">
+        <Content />
+      </div>
+
+      <ArticleCta />
+      <AuthorCard />
     </div>
 
-    <!-- 前後の記事 -->
+    <aside class="hidden lg:block">
+      <div class="sticky top-24">
+        <TableOfContents headings={headings} />
+      </div>
+    </aside>
+  </div>
+
+  <!-- 前後の記事 -->
+  <div class="mx-auto max-w-reading">
     <nav class="mt-16 grid gap-4 border-t border-line pt-10 sm:grid-cols-2 dark:border-night-line" aria-label="前後の記事">
       {
         newerPost ? (
@@ -150,7 +176,7 @@ const jsonLd = [
             href={`/blog/${newerPost.id}/`}
             class="group rounded-2xl border border-line p-5 transition hover:border-accent-300 hover:shadow-md dark:border-night-line dark:hover:border-accent-700"
           >
-            <span class="text-xs font-medium text-ink-400 dark:text-cream-dim">← 新しい記事</span>
+            <span class="text-xs font-medium text-ink-500 dark:text-cream-dim">← 新しい記事</span>
             <p class="mt-1.5 line-clamp-2 text-sm font-bold text-ink-900 transition-colors group-hover:text-accent-700 dark:text-cream dark:group-hover:text-accent-300">
               {newerPost.data.title}
             </p>
@@ -165,7 +191,7 @@ const jsonLd = [
             href={`/blog/${olderPost.id}/`}
             class="group rounded-2xl border border-line p-5 text-right transition hover:border-accent-300 hover:shadow-md dark:border-night-line dark:hover:border-accent-700"
           >
-            <span class="text-xs font-medium text-ink-400 dark:text-cream-dim">古い記事 →</span>
+            <span class="text-xs font-medium text-ink-500 dark:text-cream-dim">古い記事 →</span>
             <p class="mt-1.5 line-clamp-2 text-sm font-bold text-ink-900 transition-colors group-hover:text-accent-700 dark:text-cream dark:group-hover:text-accent-300">
               {olderPost.data.title}
             </p>
@@ -173,14 +199,10 @@ const jsonLd = [
         )
       }
     </nav>
+  </div>
 
-    <div class="mt-10 text-center">
-      <a
-        href="/blog"
-        class="inline-block rounded-full border border-line px-8 py-3 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
-      >
-        記事一覧へ戻る
-      </a>
-    </div>
-  </article>
+  <!-- 関連記事 -->
+  <div class="mx-auto max-w-5xl">
+    <RelatedPosts current={post} posts={allPosts} />
+  </div>
 </BaseLayout>

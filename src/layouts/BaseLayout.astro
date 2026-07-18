@@ -89,7 +89,7 @@ const navLinks = [
                   ))
                 }
               </div>
-              <p class="mt-5 px-4 text-xs font-semibold tracking-wider text-ink-400 dark:text-cream-dim">CATEGORY</p>
+              <p class="mt-5 px-4 text-xs font-semibold tracking-wider text-ink-500 dark:text-cream-dim">CATEGORY</p>
               <div class="mt-2 grid grid-cols-2 gap-1">
                 {
                   categories.map((cat) => (
@@ -125,7 +125,7 @@ const navLinks = [
           </div>
 
           <nav class="grid grid-cols-2 gap-x-10 gap-y-2 text-sm" aria-label="カテゴリ">
-            <span class="col-span-2 mb-1 text-xs font-semibold tracking-wider text-ink-400 dark:text-cream-dim">CATEGORY</span>
+            <span class="col-span-2 mb-1 text-xs font-semibold tracking-wider text-ink-500 dark:text-cream-dim">CATEGORY</span>
             {
               categories.map((cat) => (
                 <a href={`/category/${cat.slug}/`} class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">
@@ -136,7 +136,7 @@ const navLinks = [
           </nav>
 
           <nav class="flex flex-col gap-2 text-sm" aria-label="サイト情報">
-            <span class="mb-1 text-xs font-semibold tracking-wider text-ink-400 dark:text-cream-dim">ABOUT</span>
+            <span class="mb-1 text-xs font-semibold tracking-wider text-ink-500 dark:text-cream-dim">ABOUT</span>
             <a href="/founder" class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">運営者について</a>
             <a href="/contact" class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">お問い合わせ</a>
             <a href="/privacy" class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">プライバシーポリシー</a>
@@ -144,7 +144,7 @@ const navLinks = [
           </nav>
         </div>
 
-        <p class="mt-12 border-t border-line pt-6 text-center text-xs text-ink-400 dark:border-night-line dark:text-cream-dim">
+        <p class="mt-12 border-t border-line pt-6 text-center text-xs text-ink-500 dark:border-night-line dark:text-cream-dim">
           &copy; {year} {site.name}
         </p>
       </div>

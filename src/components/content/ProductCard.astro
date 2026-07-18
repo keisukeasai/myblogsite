@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// 商品紹介カード。MDXで:
+//   <ProductCard name="商品名" note="ひとこと" href="https://楽天/Amazon..." label="楽天で見る" image={img} />
+interface Props {
+  name: string;
+  note?: string;
+  href: string;
+  label?: string;
+  image?: ImageMetadata;
+}
+
+const { name, note, href, label = '詳しく見る', image } = Astro.props;
+---
+
+<div class="not-prose my-8 overflow-hidden rounded-2xl border border-line bg-surface sm:flex dark:border-night-line dark:bg-night-surface">
+  {
+    image && (
+      <div class="sm:w-44 sm:shrink-0">
+        <Image
+          src={image}
+          alt={name}
+          widths={[176, 352]}
+          sizes="176px"
+          class="h-44 w-full object-cover sm:h-full"
+        />
+      </div>
+    )
+  }
+  <div class="flex flex-1 flex-col justify-between p-5">
+    <div>
+      <p class="text-base font-bold text-ink-900 dark:text-cream">{name}</p>
+      {note && <p class="mt-2 text-sm leading-relaxed text-ink-600 dark:text-cream-dim">{note}</p>}
+    </div>
+    <div class="mt-4">
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer sponsored"
+        class="inline-flex items-center gap-1.5 rounded-full bg-accent-600 px-5 py-2.5 text-sm font-medium text-paper transition hover:bg-accent-700"
+      >
+        {label}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</div>

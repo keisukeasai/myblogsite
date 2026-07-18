@@ -1,0 +1,37 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  showTitle?: boolean;
+  class?: string;
+}
+
+const { headings, showTitle = true, class: className = '' } = Astro.props;
+// h2 / h3 のみを目次に採用
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  toc.length > 1 && (
+    <nav aria-label="目次" class:list={['text-sm', className]}>
+      {showTitle && (
+        <p class="mb-3 font-display text-xs font-semibold uppercase tracking-[0.15em] text-accent-600 dark:text-accent-300">
+          目次
+        </p>
+      )}
+      <ol class="space-y-2 border-l border-line dark:border-night-line">
+        {toc.map((h) => (
+          <li class:list={[h.depth === 3 ? 'pl-7' : 'pl-4']}>
+            <a
+              href={`#${h.slug}`}
+              class="-ml-px block border-l border-transparent py-0.5 text-ink-500 transition hover:border-accent-400 hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300"
+            >
+              {h.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

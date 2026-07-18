@@ -1,0 +1,49 @@
+---
+import { site, activeSocials } from '../data/site';
+
+const socials = activeSocials();
+const rakuten = socials.find((s) => s.key === 'rakutenRoom');
+const follow = socials.filter((s) => s.key !== 'rakutenRoom');
+---
+
+<section class="mt-14 rounded-3xl bg-accent-50 px-6 py-10 text-center sm:px-10 dark:bg-night-surface">
+  <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent-600 dark:text-accent-300">
+    Thank you for reading
+  </p>
+  <p class="mx-auto mt-3 max-w-md text-base font-medium leading-relaxed text-ink-800 dark:text-cream">
+    最後まで読んでいただきありがとうございます。<br />
+    {site.name}では、暮らしを整えるヒントを発信しています。
+  </p>
+  <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+    <a
+      href="/blog"
+      class="rounded-full bg-ink-900 px-6 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-ink-700 dark:bg-cream dark:text-night dark:hover:bg-white"
+    >
+      ほかの記事を読む
+    </a>
+    {
+      rakuten && (
+        <a
+          href={rakuten.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full border border-line bg-surface px-6 py-3 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:bg-night dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
+        >
+          🛋️ 楽天ROOMで愛用品を見る
+        </a>
+      )
+    }
+    {
+      follow.map((s) => (
+        <a
+          href={s.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="rounded-full border border-line bg-surface px-6 py-3 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:bg-night dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
+        >
+          {s.emoji} {s.label}をフォロー
+        </a>
+      ))
+    }
+  </div>
+</section>
