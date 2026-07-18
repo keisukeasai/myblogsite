@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(node -v)",
+      "PowerShell(npm -v)",
+      "PowerShell($paths = @\\(\"$env:ProgramFiles\\\\nodejs\\\\node.exe\", \"$env:LOCALAPPDATA\\\\Programs\\\\nodejs\\\\node.exe\", \"$env:APPDATA\\\\nvm\", \"$env:LOCALAPPDATA\\\\fnm\", \"$env:LOCALAPPDATA\\\\Volta\", \"$env:USERPROFILE\\\\scoop\\\\apps\\\\nodejs\"\\); foreach \\($p in $paths\\) { \"{0} : {1}\" -f $p, \\(Test-Path $p\\) }; winget list --id OpenJS.NodeJS 2>$null | Select-Object -Last 5)",
+      "PowerShell(Get-Command winget -ErrorAction SilentlyContinue)",
+      "PowerShell(if \\($?\\) { \"winget available\" } else { \"winget not found\" })",
+      "PowerShell(winget list --name node --accept-source-agreements 2>$null)",
+      "PowerShell($idx = Invoke-RestMethod -Uri \"https://nodejs.org/dist/index.json\"; $lts = $idx | Where-Object { $_.lts } | Select-Object -First 1; \"{0} \\(LTS: {1}\\)\" -f $lts.version, $lts.lts)",
+      "PowerShell($zip = Join-Path \"C:\\\\Users\\\\Keisuke\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Keisuke-myblogsite\\\\a9cd4ebe-8bc9-4f9d-b5e4-5cd356a8c976\\\\scratchpad\" \"node-v24.18.0-win-x64.zip\"; Invoke-WebRequest -Uri \"https://nodejs.org/dist/v24.18.0/node-v24.18.0-win-x64.zip\" -OutFile $zip; \"Downloaded: {0:N1} MB\" -f \\(\\(Get-Item $zip\\).Length / 1MB\\))",
+      "PowerShell($zip = Join-Path \"C:\\\\Users\\\\Keisuke\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-Keisuke-myblogsite\\\\a9cd4ebe-8bc9-4f9d-b5e4-5cd356a8c976\\\\scratchpad\" \"node-v24.18.0-win-x64.zip\"; $dest = Join-Path $env:LOCALAPPDATA \"Programs\"; New-Item -ItemType Directory -Force $dest | Out-Null; Expand-Archive -Path $zip -DestinationPath $dest -Force; $nodeDir = Join-Path $dest \"node-v24.18.0-win-x64\"; $target = Join-Path $dest \"nodejs\"; if \\(Test-Path $target\\) { Remove-Item -Recurse -Force $target -Confirm:$false }; Rename-Item $nodeDir \"nodejs\"; & \\(Join-Path $target \"node.exe\"\\) -v)",
+      "PowerShell($env:Path = \"$\\(Join-Path $env:LOCALAPPDATA 'Programs\\\\nodejs'\\);$env:Path\"; npm create astro@latest . -- --template minimal --install --no-git --yes 2>&1 | Out-String)",
+      "PowerShell($env:Path = \"$\\(Join-Path $env:LOCALAPPDATA 'Programs\\\\nodejs'\\);$env:Path\"; npx astro add tailwind mdx --yes 2>&1 | Out-String)",
+      "PowerShell($env:Path = \"$\\(Join-Path $env:LOCALAPPDATA 'Programs\\\\nodejs'\\);$env:Path\"; npm i -D @tailwindcss/typography 2>&1 | Select-Object -Last 3; Get-Content C:\\\\Users\\\\Keisuke\\\\myblogsite\\\\package.json)",
+      "PowerShell($pkg = \"C:\\\\Users\\\\Keisuke\\\\myblogsite\\\\package.json\"; \\(Get-Content $pkg -Raw\\) -replace '\"name\": \"stellar-saturn\"', '\"name\": \"myblogsite\"' | Set-Content $pkg -NoNewline)",
+      "PowerShell($env:Path = \"$\\(Join-Path $env:LOCALAPPDATA 'Programs\\\\nodejs'\\);$env:Path\"; npm i @fontsource-variable/noto-sans-jp @fontsource-variable/montserrat 2>&1 | Select-Object -Last 4)",
+      "PowerShell($env:Path = \"$\\(Join-Path $env:LOCALAPPDATA 'Programs\\\\nodejs'\\);$env:Path\"; npx astro add sitemap --yes 2>&1 | Select-Object -Last 8; npm i @astrojs/rss 2>&1 | Select-Object -Last 2)",
+      "PowerShell($env:Path = \"$\\(Join-Path $env:LOCALAPPDATA 'Programs\\\\nodejs'\\);$env:Path\"; npm run build 2>&1 | Select-Object -Last 15)",
+      "PowerShell(Get-ChildItem C:\\\\Users\\\\Keisuke\\\\myblogsite\\\\dist | Select-Object Name; Get-Content C:\\\\Users\\\\Keisuke\\\\myblogsite\\\\dist\\\\sitemap-index.xml -TotalCount 3; \\(Get-Content C:\\\\Users\\\\Keisuke\\\\myblogsite\\\\dist\\\\rss.xml -Raw\\).Substring\\(0, 400\\))",
+      "PowerShell(git config --global user.name)",
+      "PowerShell(git config --global user.email)",
+      "PowerShell(gh --version 2>$null)"
+    ]
+  }
+}

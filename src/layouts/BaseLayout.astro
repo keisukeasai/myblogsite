@@ -1,0 +1,63 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Astro と Tailwind CSS で作ったブログ' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title="My Blog" href={new URL('rss.xml', Astro.site)} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="min-h-screen bg-white font-sans text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-200">
+    <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-950/80">
+      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
+        <a href="/" class="font-display text-xl font-extrabold italic tracking-tight text-slate-900 dark:text-white">
+          My<span class="text-accent-600">Blog</span><span class="text-accent-600">.</span>
+        </a>
+        <nav class="flex items-center gap-1 text-sm font-medium">
+          <a href="/" class="rounded-full px-4 py-2 transition hover:bg-accent-50 hover:text-accent-700 dark:hover:bg-slate-800 dark:hover:text-accent-400">ホーム</a>
+          <a href="/blog" class="rounded-full px-4 py-2 transition hover:bg-accent-50 hover:text-accent-700 dark:hover:bg-slate-800 dark:hover:text-accent-400">ブログ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="mx-auto w-full max-w-5xl px-4 py-10">
+      <slot />
+    </main>
+
+    <footer class="mt-16 bg-slate-900 text-slate-300 dark:bg-slate-900">
+      <div class="mx-auto max-w-5xl px-4 py-10">
+        <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+          <a href="/" class="font-display text-lg font-extrabold italic text-white">
+            My<span class="text-accent-400">Blog</span><span class="text-accent-400">.</span>
+          </a>
+          <nav class="flex gap-6 text-sm">
+            <a href="/" class="transition hover:text-accent-400">ホーム</a>
+            <a href="/blog" class="transition hover:text-accent-400">ブログ</a>
+            <a href="/rss.xml" class="transition hover:text-accent-400">RSS</a>
+          </nav>
+        </div>
+        <p class="mt-8 text-center text-xs text-slate-500">
+          &copy; {new Date().getFullYear()} My Blog. Built with Astro &amp; Tailwind CSS.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,111 @@
+---
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { pickGradient } from '../../utils/thumb';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const sorted = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const index = sorted.findIndex((p) => p.id === post.id);
+const newerPost = index > 0 ? sorted[index - 1] : null;
+const olderPost = index < sorted.length - 1 ? sorted[index + 1] : null;
+
+// 日本語は約500文字/分で読了時間を概算
+const readingMinutes = Math.max(1, Math.ceil((post.body?.length ?? 0) / 500));
+
+const cover = post.data.image;
+const gradient = pickGradient(post.id);
+---
+
+<BaseLayout title={`${post.data.title} | My Blog`} description={post.data.description}>
+  <article class="mx-auto max-w-3xl">
+    <!-- バナー -->
+    <div class="relative aspect-[3/1] overflow-hidden rounded-3xl">
+      {cover ? (
+        <Image src={cover} alt={post.data.imageAlt ?? ''} loading="eager" fetchpriority="high" class="h-full w-full object-cover" />
+      ) : (
+        <div class={`flex h-full w-full items-center justify-center bg-gradient-to-br ${gradient}`}>
+          <span aria-hidden="true" class="select-none font-display text-9xl font-black italic text-white/25">
+            {post.data.title.charAt(0)}
+          </span>
+          <div class="absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(255,255,255,0.25),transparent_45%)]"></div>
+        </div>
+      )}
+    </div>
+
+    <header class="mt-8">
+      <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+        <time datetime={post.data.pubDate.toISOString()} class="font-medium">
+          {post.data.pubDate.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+        <span aria-hidden="true">·</span>
+        <span>約{readingMinutes}分で読めます</span>
+      </div>
+      <h1 class="mt-3 text-2xl font-extrabold leading-snug tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+        {post.data.title}
+      </h1>
+      {post.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {post.data.tags.map((tag) => (
+            <span class="rounded-full bg-accent-50 px-3 py-1 text-xs font-medium text-accent-700 dark:bg-slate-800 dark:text-accent-400">
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose prose-slate mt-10 max-w-none dark:prose-invert prose-headings:tracking-tight prose-a:text-accent-600 prose-code:rounded prose-code:bg-slate-100 prose-code:px-1.5 prose-code:py-0.5 prose-code:font-normal prose-code:before:content-none prose-code:after:content-none dark:prose-a:text-accent-400 dark:prose-code:bg-slate-800">
+      <Content />
+    </div>
+
+    <!-- 前後の記事 -->
+    <nav class="mt-14 grid gap-4 border-t border-slate-200 pt-8 sm:grid-cols-2 dark:border-slate-800" aria-label="前後の記事">
+      {newerPost ? (
+        <a
+          href={`/blog/${newerPost.id}/`}
+          class="group rounded-2xl border border-slate-200 p-5 transition hover:border-accent-300 hover:shadow-md dark:border-slate-800 dark:hover:border-accent-700"
+        >
+          <span class="text-xs font-medium text-slate-500 dark:text-slate-400">← 新しい記事</span>
+          <p class="mt-1 line-clamp-2 text-sm font-bold text-slate-900 transition group-hover:text-accent-600 dark:text-white dark:group-hover:text-accent-400">
+            {newerPost.data.title}
+          </p>
+        </a>
+      ) : (
+        <div></div>
+      )}
+      {olderPost && (
+        <a
+          href={`/blog/${olderPost.id}/`}
+          class="group rounded-2xl border border-slate-200 p-5 text-right transition hover:border-accent-300 hover:shadow-md dark:border-slate-800 dark:hover:border-accent-700"
+        >
+          <span class="text-xs font-medium text-slate-500 dark:text-slate-400">古い記事 →</span>
+          <p class="mt-1 line-clamp-2 text-sm font-bold text-slate-900 transition group-hover:text-accent-600 dark:text-white dark:group-hover:text-accent-400">
+            {olderPost.data.title}
+          </p>
+        </a>
+      )}
+    </nav>
+
+    <div class="mt-10 text-center">
+      <a
+        href="/blog"
+        class="inline-block rounded-full border-2 border-accent-600 px-8 py-3 text-sm font-bold text-accent-600 transition hover:bg-accent-600 hover:text-white dark:border-accent-400 dark:text-accent-400 dark:hover:bg-accent-500 dark:hover:text-white"
+      >
+        記事一覧へ戻る
+      </a>
+    </div>
+  </article>
+</BaseLayout>

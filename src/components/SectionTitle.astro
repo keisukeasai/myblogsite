@@ -1,0 +1,18 @@
+---
+interface Props {
+  en: string;
+  ja: string;
+}
+
+const { en, ja } = Astro.props;
+---
+
+<div class="mb-8 text-center">
+  <h2 class="font-display text-2xl font-extrabold italic tracking-tight text-slate-900 dark:text-white">
+    {en}
+  </h2>
+  <p class="mt-1 text-xs font-medium tracking-widest text-accent-600 dark:text-accent-400">
+    {ja}
+  </p>
+  <div class="mx-auto mt-3 h-1 w-10 rounded-full bg-accent-600"></div>
+</div>
