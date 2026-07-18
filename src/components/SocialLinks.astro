@@ -1,0 +1,65 @@
+---
+import { activeSocials } from '../data/site';
+
+interface Props {
+  /** icon: アイコンのみ / labeled: 絵文字＋ラベルのチップ */
+  variant?: 'icon' | 'labeled';
+  class?: string;
+}
+
+const { variant = 'icon', class: className = '' } = Astro.props;
+const socials = activeSocials();
+---
+
+{
+  socials.length > 0 && (
+    <ul class:list={['flex flex-wrap items-center gap-2', className]}>
+      {socials.map((s) =>
+        variant === 'labeled' ? (
+          <li>
+            <a
+              href={s.url}
+              target="_blank"
+              rel="me noopener noreferrer"
+              class="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
+            >
+              <span aria-hidden="true">{s.emoji}</span>
+              {s.label}
+            </a>
+          </li>
+        ) : (
+          <li>
+            <a
+              href={s.url}
+              target="_blank"
+              rel="me noopener noreferrer"
+              aria-label={s.label}
+              title={s.label}
+              class="flex h-9 w-9 items-center justify-center rounded-full text-ink-600 transition hover:bg-accent-50 hover:text-accent-700 dark:text-cream-dim dark:hover:bg-night-surface dark:hover:text-accent-300"
+            >
+              {s.key === 'x' && (
+                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              )}
+              {s.key === 'instagram' && (
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="2.5" y="2.5" width="19" height="19" rx="5" />
+                  <circle cx="12" cy="12" r="4.2" />
+                  <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none" />
+                </svg>
+              )}
+              {s.key === 'youtube' && (
+                <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="2.5" y="5" width="19" height="14" rx="4" />
+                  <path d="M10 9l5 3-5 3z" fill="currentColor" stroke="none" />
+                </svg>
+              )}
+              {s.key === 'rakutenRoom' && <span aria-hidden="true" class="text-base">🛋️</span>}
+            </a>
+          </li>
+        )
+      )}
+    </ul>
+  )
+}
