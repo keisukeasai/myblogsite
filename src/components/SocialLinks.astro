@@ -23,7 +23,12 @@ const linkClass =
       {socials.map((s) => (
         <li>
           <a href={s.url} target="_blank" rel="me noopener noreferrer" aria-label={s.label} title={s.label} class={linkClass}>
-            {s.key === 'note' ? (
+            {s.key === 'x' ? (
+              /* X 公式ロゴ(提供素材・形状無改変、単色 currentColor で表示) */
+              <svg viewBox="0 0 1200 1227" class="h-4 w-auto" role="img" aria-hidden="true" fill="currentColor">
+                <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" />
+              </svg>
+            ) : s.key === 'note' ? (
               /* note 公式ワードマーク(提供素材・形状無改変、単色 currentColor で表示) */
               <svg viewBox="64 56 486 112" class="h-4 w-auto" fill="currentColor" role="img" aria-hidden="true">
                 <path d="M129.6 69.1C111.6 68.6 86.4 69.6 68.1 69.6V163.2H94.3V92.4C94.3 92.4 117.6 91.6 126 92.6C133.9 93.5 136.8 98.4 137.1 108.6C137.3 120.2 137.1 126.3 137.1 163.2H163.3C163.3 163.2 163.6 121 163.3 106.3C162.9 80.2 153.8 69.7 129.6 69.1Z" />
