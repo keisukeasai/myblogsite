@@ -8,8 +8,8 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: 'My Blog',
-    description: 'Astro と Tailwind CSS で作ったブログ',
+    title: 'かえりたくなる部屋',
+    description: '暮らしが少し好きになる、モノ(ガジェット)と部屋(インテリア)の話。',
     site: context.site!,
     items: posts.map((post) => ({
       title: post.data.title,
