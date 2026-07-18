@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { pickGradient } from '../../utils/thumb';
+import CategoryBadge from '../../components/CategoryBadge.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -52,6 +53,12 @@ const gradient = pickGradient(post.id);
 
     <header class="mt-8">
       <div class="flex flex-wrap items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
+        <a
+          href={`/category/${post.data.category}/`}
+          class="rounded-full bg-accent-600 px-3 py-1 text-xs font-bold text-white transition hover:bg-accent-700"
+        >
+          <CategoryBadge slug={post.data.category} />
+        </a>
         <time datetime={post.data.pubDate.toISOString()} class="font-medium">
           {post.data.pubDate.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
         </time>

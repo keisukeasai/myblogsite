@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { categories } from '../../data/categories';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return categories.map((cat) => ({
+    params: { category: cat.slug },
+    props: {
+      cat,
+      posts: posts
+        .filter((p) => p.data.category === cat.slug)
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+const { cat, posts } = Astro.props;
+---
+
+<BaseLayout title={`${cat.name}の記事 | かえりたくなる部屋`} description={`「${cat.name}」に関する記事一覧。`}>
+  <div class="mb-8 text-center">
+    <span class="text-5xl">{cat.emoji}</span>
+    <h1 class="mt-3 font-display text-2xl font-extrabold italic tracking-tight text-slate-900 dark:text-white">
+      {cat.name}
+    </h1>
+    <p class="mt-1 text-xs font-medium tracking-widest text-accent-600 dark:text-accent-400">
+      {posts.length}件の記事
+    </p>
+    <div class="mx-auto mt-3 h-1 w-10 rounded-full bg-accent-600"></div>
+  </div>
+
+  <!-- 他カテゴリへのナビ -->
+  <nav class="mb-10 flex flex-wrap justify-center gap-2" aria-label="カテゴリ">
+    {
+      categories.map((c) => (
+        <a
+          href={`/category/${c.slug}/`}
+          class:list={[
+            'rounded-full px-4 py-1.5 text-sm font-medium transition',
+            c.slug === cat.slug
+              ? 'bg-accent-600 text-white'
+              : 'border border-slate-200 text-slate-600 hover:border-accent-300 hover:text-accent-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-accent-700',
+          ]}
+        >
+          {c.emoji} {c.name}
+        </a>
+      ))
+    }
+  </nav>
+
+  {
+    posts.length > 0 ? (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+    ) : (
+      <p class="py-16 text-center text-slate-500 dark:text-slate-400">
+        このカテゴリの記事はまだありません。
+      </p>
+    )
+  }
+</BaseLayout>

@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import Logo from '../components/Logo.astro';
+import { categories } from '../data/categories';
 import '../styles/global.css';
 
 interface Props {
@@ -55,6 +56,15 @@ const { title, description = '暮らしが少し好きになる、モノ(ガジ�
             <a href="/rss.xml" class="transition hover:text-accent-400">RSS</a>
           </nav>
         </div>
+        <nav class="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-slate-800 pt-8 text-sm" aria-label="カテゴリ">
+          {
+            categories.map((cat) => (
+              <a href={`/category/${cat.slug}/`} class="text-slate-400 transition hover:text-accent-400">
+                {cat.emoji} {cat.name}
+              </a>
+            ))
+          }
+        </nav>
         <p class="mt-8 text-center text-xs text-slate-500">
           &copy; {new Date().getFullYear()} かえりたくなる部屋. Built with Astro &amp; Tailwind CSS.
         </p>

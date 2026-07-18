@@ -2,6 +2,7 @@
 title: Tailwind CSS の導入メモ
 description: Astro プロジェクトに Tailwind CSS v4 を導入した手順のメモ。
 pubDate: 2026-07-10
+category: desk
 tags: ["tailwind", "css"]
 ---
 

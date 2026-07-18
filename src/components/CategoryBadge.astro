@@ -1,0 +1,20 @@
+---
+import { getCategory } from '../data/categories';
+
+interface Props {
+  slug: string;
+  class?: string;
+}
+
+const { slug, class: className = '' } = Astro.props;
+const cat = getCategory(slug);
+---
+
+{
+  cat && (
+    <span class={`inline-flex items-center gap-1 ${className}`}>
+      <span aria-hidden="true">{cat.emoji}</span>
+      <span>{cat.name}</span>
+    </span>
+  )
+}
