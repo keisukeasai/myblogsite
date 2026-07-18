@@ -11,19 +11,19 @@ export const site = {
   locale: 'ja_JP',
   lang: 'ja',
 
-  // 運営者(Founder)
+  // 運営者(Founder)。公開上の名義は「かえる」。
   author: {
-    name: 'タカヒロ', // TODO: 実名 or ハンドルに変更
+    name: 'かえる',
     role: '編集長 / かえりたくなる部屋 運営者',
     url: '/founder',
   },
 
   // SNS・外部導線。値を入れると各所にリンクが表示される(空なら非表示)。
   social: {
-    x: '', // 例: 'https://x.com/xxxx'
-    instagram: '', // 例: 'https://www.instagram.com/xxxx'
-    youtube: '', // 例: 'https://www.youtube.com/@xxxx'
-    rakutenRoom: '', // 例: 'https://room.rakuten.co.jp/xxxx'
+    x: 'https://x.com/kaeritaku_room',
+    note: 'https://note.com/kaeritaku_room',
+    threads: 'https://www.threads.com/@kaeritaku_room',
+    rakutenRoom: 'https://room.rakuten.co.jp/kaeritaku_room/items',
   },
 
   // お問い合わせ先(メール or フォームURL)。空なら準備中表示。
@@ -34,11 +34,11 @@ export const site = {
 } as const;
 
 // SNSリンクを配列で取得(設定済みのものだけ)
-export type SocialKey = 'x' | 'instagram' | 'youtube' | 'rakutenRoom';
+export type SocialKey = 'x' | 'note' | 'threads' | 'rakutenRoom';
 export const socialMeta: Record<SocialKey, { label: string; emoji: string }> = {
-  x: { label: 'X (Twitter)', emoji: '𝕏' },
-  instagram: { label: 'Instagram', emoji: '📷' },
-  youtube: { label: 'YouTube', emoji: '▶' },
+  x: { label: 'X', emoji: '𝕏' },
+  note: { label: 'note', emoji: '📝' },
+  threads: { label: 'Threads', emoji: '🧵' },
   rakutenRoom: { label: '楽天ROOM', emoji: '🛋️' },
 };
 
