@@ -2,52 +2,31 @@
 import { activeSocials } from '../data/site';
 
 interface Props {
-  /** icon: アイコンのみ / labeled: 絵文字＋ラベルのチップ */
+  /** icon: ゴースト調のテキストリンク / labeled: ボーダー付きチップ */
   variant?: 'icon' | 'labeled';
   class?: string;
 }
 
 const { variant = 'icon', class: className = '' } = Astro.props;
 const socials = activeSocials();
+
+// 公式ロゴ素材を安全に利用できないため、絵文字ではなく統一した単色テキストで表示する。
+const linkClass =
+  variant === 'labeled'
+    ? 'inline-flex items-center rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300'
+    : 'inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium text-ink-600 transition hover:bg-accent-50 hover:text-accent-700 dark:text-cream-dim dark:hover:bg-night-surface dark:hover:text-accent-300';
 ---
 
 {
   socials.length > 0 && (
     <ul class:list={['flex flex-wrap items-center gap-2', className]}>
-      {socials.map((s) =>
-        variant === 'labeled' ? (
-          <li>
-            <a
-              href={s.url}
-              target="_blank"
-              rel="me noopener noreferrer"
-              class="inline-flex items-center gap-1.5 rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
-            >
-              <span aria-hidden="true">{s.emoji}</span>
-              {s.label}
-            </a>
-          </li>
-        ) : (
-          <li>
-            <a
-              href={s.url}
-              target="_blank"
-              rel="me noopener noreferrer"
-              aria-label={s.label}
-              title={s.label}
-              class="flex h-9 w-9 items-center justify-center rounded-full text-ink-600 transition hover:bg-accent-50 hover:text-accent-700 dark:text-cream-dim dark:hover:bg-night-surface dark:hover:text-accent-300"
-            >
-              {s.key === 'x' ? (
-                <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor" aria-hidden="true">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              ) : (
-                <span aria-hidden="true" class="text-base">{s.emoji}</span>
-              )}
-            </a>
-          </li>
-        )
-      )}
+      {socials.map((s) => (
+        <li>
+          <a href={s.url} target="_blank" rel="me noopener noreferrer" aria-label={s.label} title={s.label} class={linkClass}>
+            {s.label}
+          </a>
+        </li>
+      ))}
     </ul>
   )
 }

@@ -35,14 +35,15 @@ export const site = {
 
 // SNSリンクを配列で取得(設定済みのものだけ)
 export type SocialKey = 'x' | 'note' | 'threads' | 'rakutenRoom';
-export const socialMeta: Record<SocialKey, { label: string; emoji: string }> = {
-  x: { label: 'X', emoji: '𝕏' },
-  note: { label: 'note', emoji: '📝' },
-  threads: { label: 'Threads', emoji: '🧵' },
-  rakutenRoom: { label: '楽天ROOM', emoji: '🛋️' },
+// 表示は静かな単色テキスト(絵文字・OS依存グリフは使わない)。
+export const socialMeta: Record<SocialKey, { label: string }> = {
+  x: { label: 'X' },
+  note: { label: 'note' },
+  threads: { label: 'Threads' },
+  rakutenRoom: { label: '楽天ROOM' },
 };
 
-export function activeSocials(): { key: SocialKey; url: string; label: string; emoji: string }[] {
+export function activeSocials(): { key: SocialKey; url: string; label: string }[] {
   return (Object.keys(socialMeta) as SocialKey[])
     .filter((k) => site.social[k].length > 0)
     .map((k) => ({ key: k, url: site.social[k], ...socialMeta[k] }));
