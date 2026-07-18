@@ -7,8 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // TODO: 公開URLが決まったら差し替えること(sitemap・RSS・OGPの絶対URLに使われる)
-  site: 'https://example.com',
+  site: 'https://myblogsite-8ip.pages.dev',
 
   vite: {
     plugins: [tailwindcss()]
