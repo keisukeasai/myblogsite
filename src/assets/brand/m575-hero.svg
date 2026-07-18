@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  かえりたくなる部屋 / M575レビュー記事 アイキャッチ（再編集可能ソース）
+  サイズ 1280x670。既存 kiji0X_見出し と同じ構図・配色。
+  配色: セージ #6E9E96 / クリーム #EFE9DA / チャコール #201F1C（実測トークン）
+  フォント: Noto Sans JP（サイト主フォント。システムにも実在）
+  文言を変えるだけで別記事の見出しに再利用できる。
+-->
+<svg width="1280" height="670" viewBox="0 0 1280 670" xmlns="http://www.w3.org/2000/svg">
+  <!-- セージのフレーム面 -->
+  <rect x="0" y="0" width="1280" height="670" fill="#6E9E96"/>
+  <!-- クリームの内側背景（フレーム幅=30px） -->
+  <rect x="30" y="30" width="1220" height="610" fill="#EFE9DA"/>
+
+  <!-- かえるマーク（上部中央・セージ） -->
+  <g fill="#6E9E96">
+    <circle cx="608" cy="116" r="33"/>
+    <circle cx="672" cy="116" r="33"/>
+    <ellipse cx="640" cy="160" rx="66" ry="60"/>
+  </g>
+  <!-- 目（クリームの抜き） -->
+  <circle cx="609" cy="118" r="12.5" fill="#EFE9DA"/>
+  <circle cx="671" cy="118" r="12.5" fill="#EFE9DA"/>
+  <!-- 口（クリームの微笑み） -->
+  <path d="M614 150 Q640 170 666 150" fill="none" stroke="#EFE9DA" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- 文言 -->
+  <g text-anchor="middle" font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif">
+    <!-- メインコピー（最大） -->
+    <text x="640" y="362" font-size="82" font-weight="700" fill="#201F1C">マウスを動かさない選択。</text>
+    <!-- 補助文言（一段小さく） -->
+    <text x="640" y="448" font-size="40" font-weight="500" fill="#3C3A34">M575を1年以上使って分かったこと</text>
+    <!-- 下部カテゴリ表記（セージ・小） -->
+    <text x="640" y="600" font-size="30" font-weight="600" fill="#6E9E96" letter-spacing="1">かえる｜トラックボール</text>
+  </g>
+</svg>
