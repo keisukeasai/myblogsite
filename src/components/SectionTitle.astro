@@ -2,17 +2,37 @@
 interface Props {
   en: string;
   ja: string;
+  /** 右側に表示する補助リンク(任意) */
+  href?: string;
+  linkLabel?: string;
+  align?: 'center' | 'left';
 }
 
-const { en, ja } = Astro.props;
+const { en, ja, href, linkLabel, align = 'center' } = Astro.props;
 ---
 
-<div class="mb-8 text-center">
-  <h2 class="font-display text-2xl font-extrabold italic tracking-tight text-slate-900 dark:text-white">
-    {en}
-  </h2>
-  <p class="mt-1 text-xs font-medium tracking-widest text-accent-600 dark:text-accent-400">
-    {ja}
-  </p>
-  <div class="mx-auto mt-3 h-1 w-10 rounded-full bg-accent-600"></div>
+<div
+  class:list={[
+    'mb-10 flex flex-wrap items-end gap-x-4 gap-y-2',
+    align === 'center' ? 'flex-col items-center text-center' : 'justify-between',
+  ]}
+>
+  <div class={align === 'center' ? '' : 'min-w-0'}>
+    <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent-600 dark:text-accent-300">
+      {en}
+    </p>
+    <h2 class="mt-1.5 text-xl font-bold tracking-tight text-ink-900 sm:text-2xl dark:text-cream">
+      {ja}
+    </h2>
+  </div>
+  {
+    href && (
+      <a
+        href={href}
+        class="text-sm font-medium text-accent-700 transition hover:text-accent-800 dark:text-accent-300 dark:hover:text-accent-200"
+      >
+        {linkLabel ?? 'すべて見る'} →
+      </a>
+    )
+  }
 </div>

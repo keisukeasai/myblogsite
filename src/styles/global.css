@@ -1,34 +1,96 @@
 @import "@fontsource-variable/noto-sans-jp";
 @import "@fontsource-variable/montserrat";
-@import "@fontsource-variable/montserrat/wght-italic.css";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* =========================================================================
+   かえりたくなる部屋 — Design System tokens
+   ブランド世界観: Apple / MUJI / BALMUDA / Nothing の「余白・静けさ・上質さ」
+   基軸はロゴのパレット: paper #FAF9F5 / ink #222 / sage #A7B8A2
+   ========================================================================= */
 @theme {
-  --font-sans: "Noto Sans JP Variable", "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
+  /* --- Typography --- */
+  --font-sans: "Noto Sans JP Variable", "Hiragino Sans", "Yu Gothic UI", system-ui, sans-serif;
   --font-display: "Montserrat Variable", "Noto Sans JP Variable", system-ui, sans-serif;
 
-  /* digital-style.jp のアクセント青 (#1E82CE) を基準にしたスケール */
-  --color-accent-50: #eff7fd;
-  --color-accent-100: #dbeefa;
-  --color-accent-200: #bce0f6;
-  --color-accent-300: #8accef;
-  --color-accent-400: #51b1e5;
-  --color-accent-500: #2a96d8;
-  --color-accent-600: #1e82ce;
-  --color-accent-700: #1a67a6;
-  --color-accent-800: #1b5788;
-  --color-accent-900: #1c4a71;
+  /* --- Accent = sage (ロゴの葉色 #A7B8A2 基準)。
+         既存の accent-* を再定義し、全ファイルを無痛でブランドトーンへ移行する。 --- */
+  --color-accent-50: #f4f6f2;
+  --color-accent-100: #e6ece2;
+  --color-accent-200: #ccd8c6;
+  --color-accent-300: #a7b8a2;
+  --color-accent-400: #849878;
+  --color-accent-500: #687c5e;
+  --color-accent-600: #53644b;
+  --color-accent-700: #43503d;
+  --color-accent-800: #384233;
+  --color-accent-900: #2f372c;
+
+  /* --- Warm neutrals (light) --- */
+  --color-paper: #faf9f5;   /* ページ背景 */
+  --color-surface: #ffffff; /* カード・面 */
+  --color-line: #e9e5dc;    /* 境界線 */
+  --color-ink-900: #201f1c; /* 見出し */
+  --color-ink-700: #3c3a34; /* 本文 */
+  --color-ink-600: #55524a; /* 準本文 */
+  --color-ink-500: #6f6b61; /* 補助テキスト */
+  --color-ink-400: #928d82; /* 弱い補助 */
+
+  /* --- Warm neutrals (dark) --- */
+  --color-night: #191817;         /* 背景 */
+  --color-night-surface: #221f1d; /* カード・面 */
+  --color-night-line: #34312c;    /* 境界線 */
+  --color-cream: #ece9e2;         /* 見出し・本文 */
+  --color-cream-dim: #a8a49a;     /* 補助テキスト */
+
+  /* --- Soft shadows(静けさのため既定より弱く・暖色寄りに) --- */
+  --shadow-sm: 0 1px 2px 0 rgb(32 31 28 / 0.04);
+  --shadow-md: 0 6px 20px -8px rgb(32 31 28 / 0.10);
+  --shadow-lg: 0 18px 44px -14px rgb(32 31 28 / 0.12);
+  --shadow-xl: 0 28px 60px -18px rgb(32 31 28 / 0.14);
+
+  /* --- Reading measure --- */
+  --container-reading: 44rem; /* 記事本文の最適幅(約40〜45em) */
 }
 
-html {
-  scroll-behavior: smooth;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem; /* sticky header 分のアンカーオフセット */
+  }
+
+  /* キーボード操作時のフォーカスリング(WCAG 2.4.7) */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-500);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  ::selection {
+    background: var(--color-accent-200);
+    color: var(--color-ink-900);
+  }
+
+  /* モーション低減の尊重(WCAG 2.3.3 / prefers-reduced-motion) */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
 /* カードのホバー時にサムネイルをわずかにズーム */
 .group:hover .thumb-zoom {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 .thumb-zoom {
-  transition: transform 0.4s cubic-bezier(0.2, 0.6, 0.2, 1);
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.28, 1);
 }

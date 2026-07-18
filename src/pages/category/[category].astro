@@ -2,7 +2,9 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { categories } from '../../data/categories';
+import { site } from '../../data/site';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -18,22 +20,46 @@ export async function getStaticPaths() {
 }
 
 const { cat, posts } = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('http://localhost:4321');
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: siteUrl.href },
+      { '@type': 'ListItem', position: 2, name: '記事一覧', item: new URL('/blog/', siteUrl).href },
+      { '@type': 'ListItem', position: 3, name: cat.name, item: new URL(`/category/${cat.slug}/`, siteUrl).href },
+    ],
+  },
+];
 ---
 
-<BaseLayout title={`${cat.name}の記事 | かえりたくなる部屋`} description={`「${cat.name}」に関する記事一覧。`}>
-  <div class="mb-8 text-center">
+<BaseLayout
+  title={`${cat.name}の記事 | ${site.name}`}
+  description={`「${cat.name}」に関する記事一覧。${site.description}`}
+  jsonLd={jsonLd}
+>
+  <Breadcrumb
+    items={[{ name: 'ホーム', href: '/' }, { name: '記事一覧', href: '/blog' }, { name: cat.name }]}
+  />
+
+  <header class="mb-8 text-center">
     <span class="text-5xl">{cat.emoji}</span>
-    <h1 class="mt-3 font-display text-2xl font-extrabold italic tracking-tight text-slate-900 dark:text-white">
+    <h1 class="mt-3 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl dark:text-cream">
       {cat.name}
     </h1>
-    <p class="mt-1 text-xs font-medium tracking-widest text-accent-600 dark:text-accent-400">
-      {posts.length}件の記事
-    </p>
-    <div class="mx-auto mt-3 h-1 w-10 rounded-full bg-accent-600"></div>
-  </div>
+    <p class="mt-1.5 text-sm text-ink-400 dark:text-cream-dim">{posts.length}件の記事</p>
+  </header>
 
-  <!-- 他カテゴリへのナビ -->
-  <nav class="mb-10 flex flex-wrap justify-center gap-2" aria-label="カテゴリ">
+  <!-- カテゴリ切り替え -->
+  <nav class="mb-12 flex flex-wrap justify-center gap-2" aria-label="カテゴリ">
+    <a
+      href="/blog"
+      class="rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink-600 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream-dim dark:hover:border-accent-700 dark:hover:text-accent-300"
+    >
+      すべて
+    </a>
     {
       categories.map((c) => (
         <a
@@ -41,8 +67,8 @@ const { cat, posts } = Astro.props;
           class:list={[
             'rounded-full px-4 py-1.5 text-sm font-medium transition',
             c.slug === cat.slug
-              ? 'bg-accent-600 text-white'
-              : 'border border-slate-200 text-slate-600 hover:border-accent-300 hover:text-accent-600 dark:border-slate-700 dark:text-slate-300 dark:hover:border-accent-700',
+              ? 'bg-ink-900 text-paper dark:bg-cream dark:text-night'
+              : 'border border-line text-ink-600 hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream-dim dark:hover:border-accent-700 dark:hover:text-accent-300',
           ]}
         >
           {c.emoji} {c.name}
@@ -54,12 +80,12 @@ const { cat, posts } = Astro.props;
   {
     posts.length > 0 ? (
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {posts.map((post) => (
-          <PostCard post={post} />
+        {posts.map((post, i) => (
+          <PostCard post={post} priority={i < 3} />
         ))}
       </div>
     ) : (
-      <p class="py-16 text-center text-slate-500 dark:text-slate-400">
+      <p class="py-20 text-center text-ink-400 dark:text-cream-dim">
         このカテゴリの記事はまだありません。
       </p>
     )

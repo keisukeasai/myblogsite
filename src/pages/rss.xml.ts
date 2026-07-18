@@ -1,6 +1,8 @@
 import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 import type { APIContext } from 'astro';
+import { site } from '../data/site';
+import { getCategory } from '../data/categories';
 
 export async function GET(context: APIContext) {
   const posts = (await getCollection('blog')).sort(
@@ -8,15 +10,16 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: 'かえりたくなる部屋',
-    description: '暮らしが少し好きになる、モノ(ガジェット)と部屋(インテリア)の話。',
+    title: site.name,
+    description: site.description,
     site: context.site!,
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.pubDate,
       link: `/blog/${post.id}/`,
+      categories: [getCategory(post.data.category)?.name ?? post.data.category, ...post.data.tags],
     })),
-    customData: '<language>ja</language>',
+    customData: `<language>${site.lang}</language>`,
   });
 }

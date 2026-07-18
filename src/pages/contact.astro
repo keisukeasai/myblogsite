@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import { site } from '../data/site';
+
+const hasEmail = site.contact.email.length > 0;
+const hasForm = site.contact.formUrl.length > 0;
+const hasContact = hasEmail || hasForm;
+---
+
+<BaseLayout title={`お問い合わせ | ${site.name}`} description={`${site.name}へのお問い合わせ・レビュー依頼はこちらから。`}>
+  <div class="mx-auto max-w-reading">
+    <Breadcrumb items={[{ name: 'ホーム', href: '/' }, { name: 'お問い合わせ' }]} />
+
+    <header class="text-center">
+      <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent-600 dark:text-accent-300">
+        Contact
+      </p>
+      <h1 class="mt-3 text-2xl font-bold tracking-tight text-ink-900 sm:text-3xl dark:text-cream">お問い合わせ</h1>
+    </header>
+
+    <div class="mt-10 rounded-2xl border border-line bg-surface p-6 sm:p-8 dark:border-night-line dark:bg-night-surface">
+      <p class="text-sm leading-loose text-ink-600 dark:text-cream-dim">
+        記事へのご感想、レビュー依頼、その他のお問い合わせを歓迎しています。
+        いただいた内容には、できる範囲で順次お返事いたします。
+      </p>
+
+      {
+        hasContact ? (
+          <div class="mt-6 flex flex-wrap gap-3">
+            {hasForm && (
+              <a
+                href={site.contact.formUrl}
+                class="rounded-full bg-ink-900 px-7 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-ink-700 dark:bg-cream dark:text-night dark:hover:bg-white"
+              >
+                お問い合わせフォーム
+              </a>
+            )}
+            {hasEmail && (
+              <a
+                href={`mailto:${site.contact.email}`}
+                class="rounded-full border border-line px-7 py-3 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
+              >
+                メールで連絡する
+              </a>
+            )}
+          </div>
+        ) : (
+          <p class="mt-6 rounded-xl bg-accent-50 px-4 py-3 text-sm text-ink-600 dark:bg-night-line dark:text-cream-dim">
+            お問い合わせ窓口は現在準備中です。近日中に公開します。
+          </p>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>

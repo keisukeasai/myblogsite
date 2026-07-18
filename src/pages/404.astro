@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { categories } from '../data/categories';
+---
+
+<BaseLayout title="ページが見つかりません | かえりたくなる部屋" noindex={true}>
+  <section class="mx-auto max-w-reading py-16 text-center sm:py-24">
+    <p class="font-display text-6xl font-bold text-accent-300 sm:text-7xl">404</p>
+    <h1 class="mt-6 text-xl font-bold text-ink-900 sm:text-2xl dark:text-cream">
+      お探しのページは見つかりませんでした
+    </h1>
+    <p class="mx-auto mt-4 max-w-md text-sm leading-loose text-ink-500 dark:text-cream-dim">
+      ページが移動または削除されたか、URLが間違っている可能性があります。
+      下のリンクから、目的の場所を探してみてください。
+    </p>
+
+    <div class="mt-9 flex flex-wrap justify-center gap-3">
+      <a
+        href="/"
+        class="rounded-full bg-ink-900 px-7 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-ink-700 dark:bg-cream dark:text-night dark:hover:bg-white"
+      >
+        ホームへ戻る
+      </a>
+      <a
+        href="/blog"
+        class="rounded-full border border-line px-7 py-3 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
+      >
+        記事一覧を見る
+      </a>
+    </div>
+
+    <div class="mt-12 flex flex-wrap justify-center gap-2">
+      {
+        categories.map((cat) => (
+          <a
+            href={`/category/${cat.slug}/`}
+            class="rounded-full border border-line px-4 py-1.5 text-sm text-ink-600 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream-dim dark:hover:border-accent-700 dark:hover:text-accent-300"
+          >
+            {cat.emoji} {cat.name}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,98 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** OGP画像の絶対URL(記事のアイキャッチなど)。未指定なら og:image を省略。 */
+  image?: string;
+  imageAlt?: string;
+  /** ページ種別 */
+  type?: 'website' | 'article';
+  /** 構造化データ(JSON-LD)。ページ側で組み立てて渡す。 */
+  jsonLd?: Record<string, unknown>[];
+  /** noindex にしたいページ(検索結果など)で true */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.description,
+  image,
+  imageAlt,
+  type = 'website',
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('http://localhost:4321');
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const ogImage = image ? new URL(image, siteUrl).href : undefined;
+
+// 全ページ共通の構造化データ(WebSite + Organization)
+const baseJsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: siteUrl.href,
+    description: site.description,
+    inLanguage: site.lang,
+    publisher: { '@id': `${siteUrl.href}#organization` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${siteUrl.href}#organization`,
+    name: site.name,
+    url: siteUrl.href,
+    slogan: site.tagline,
+    logo: new URL('/favicon.svg', siteUrl).href,
+  },
+];
+
+const graph = [...baseJsonLd, ...jsonLd];
+---
+
+<!-- 基本メタ -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="generator" content={Astro.generator} />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{
+  noindex ? (
+    <meta name="robots" content="noindex, follow" />
+  ) : (
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+  )
+}
+
+<!-- アイコン / フィード -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="alternate" type="application/rss+xml" title={site.name} href={new URL('rss.xml', siteUrl).href} />
+<link rel="sitemap" href="/sitemap-index.xml" />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={site.locale} />
+{ogImage && <meta property="og:image" content={ogImage} />}
+{ogImage && imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+<!-- 構造化データ(JSON-LD) -->
+{
+  graph.map((node) => (
+    <script type="application/ld+json" set:html={JSON.stringify(node)} />
+  ))
+}

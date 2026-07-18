@@ -1,72 +1,118 @@
 ---
 import { ClientRouter } from 'astro:transitions';
+import BaseHead from '../components/BaseHead.astro';
 import Logo from '../components/Logo.astro';
 import { categories } from '../data/categories';
+import { site } from '../data/site';
 import '../styles/global.css';
 
 interface Props {
   title: string;
   description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
 }
 
-const { title, description = '暮らしが少し好きになる、モノ(ガジェット)と部屋(インテリア)の話。' } = Astro.props;
+const { title, description, image, imageAlt, type, jsonLd, noindex } = Astro.props;
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
-<html lang="ja">
+<html lang={site.lang}>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="alternate" type="application/rss+xml" title="かえりたくなる部屋" href={new URL('rss.xml', Astro.site)} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
-    <title>{title}</title>
+    <BaseHead
+      title={title}
+      description={description}
+      image={image}
+      imageAlt={imageAlt}
+      type={type}
+      jsonLd={jsonLd}
+      noindex={noindex}
+    />
     <ClientRouter />
   </head>
-  <body class="min-h-screen bg-white font-sans text-slate-800 antialiased dark:bg-slate-950 dark:text-slate-200">
-    <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/80 backdrop-blur-md dark:border-slate-800/70 dark:bg-slate-950/80">
-      <div class="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-        <a href="/" class="text-slate-800 transition hover:opacity-80 dark:text-white">
-          <Logo class="h-10 w-auto" />
+  <body class="min-h-screen bg-paper font-sans text-ink-700 antialiased dark:bg-night dark:text-cream">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink-900 focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-paper"
+    >
+      本文へスキップ
+    </a>
+
+    <header
+      class="sticky top-0 z-50 border-b border-line/70 bg-paper/80 backdrop-blur-md dark:border-night-line/70 dark:bg-night/80"
+    >
+      <div class="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
+        <a href="/" class="text-ink-900 transition-opacity hover:opacity-70 dark:text-cream" aria-label={`${site.name} ホーム`}>
+          <Logo class="h-9 w-auto" />
         </a>
-        <nav class="flex items-center gap-1 text-sm font-medium">
-          <a href="/" class="rounded-full px-4 py-2 transition hover:bg-accent-50 hover:text-accent-700 dark:hover:bg-slate-800 dark:hover:text-accent-400">ホーム</a>
-          <a href="/blog" class="rounded-full px-4 py-2 transition hover:bg-accent-50 hover:text-accent-700 dark:hover:bg-slate-800 dark:hover:text-accent-400">ブログ</a>
+        <nav class="flex items-center gap-1 text-sm" aria-label="メインナビゲーション">
+          <a
+            href="/"
+            class="rounded-full px-4 py-2 text-ink-600 transition hover:bg-accent-50 hover:text-accent-700 dark:text-cream-dim dark:hover:bg-night-surface dark:hover:text-accent-300"
+            >ホーム</a
+          >
+          <a
+            href="/blog"
+            class="rounded-full px-4 py-2 text-ink-600 transition hover:bg-accent-50 hover:text-accent-700 dark:text-cream-dim dark:hover:bg-night-surface dark:hover:text-accent-300"
+            >記事</a
+          >
+          <a
+            href="/about"
+            class="rounded-full px-4 py-2 text-ink-600 transition hover:bg-accent-50 hover:text-accent-700 dark:text-cream-dim dark:hover:bg-night-surface dark:hover:text-accent-300"
+            >このサイトについて</a
+          >
         </nav>
       </div>
     </header>
 
-    <main class="mx-auto w-full max-w-5xl px-4 py-10">
+    <main id="main" class="mx-auto w-full max-w-6xl px-5 py-14 sm:px-8 sm:py-20">
       <slot />
     </main>
 
-    <footer class="mt-16 bg-slate-900 text-slate-300 dark:bg-slate-900">
-      <div class="mx-auto max-w-5xl px-4 py-10">
-        <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
-          <a href="/" class="text-white transition hover:opacity-80">
-            <Logo class="h-9 w-auto" />
-          </a>
-          <nav class="flex gap-6 text-sm">
-            <a href="/" class="transition hover:text-accent-400">ホーム</a>
-            <a href="/blog" class="transition hover:text-accent-400">ブログ</a>
-            <a href="/rss.xml" class="transition hover:text-accent-400">RSS</a>
+    <footer class="mt-10 border-t border-line bg-paper dark:border-night-line dark:bg-night">
+      <div class="mx-auto max-w-6xl px-5 py-14 sm:px-8">
+        <div class="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
+          <div class="max-w-sm">
+            <a href="/" class="text-ink-900 transition-opacity hover:opacity-70 dark:text-cream" aria-label={`${site.name} ホーム`}>
+              <Logo class="h-9 w-auto" />
+            </a>
+            <p class="mt-4 text-sm leading-relaxed text-ink-500 dark:text-cream-dim">
+              {site.tagline}<br />
+              ガジェットとインテリアで、毎日の暮らしを少し心地よく。
+            </p>
+          </div>
+
+          <nav class="grid grid-cols-2 gap-x-10 gap-y-2 text-sm" aria-label="カテゴリ">
+            <span class="col-span-2 mb-1 text-xs font-semibold tracking-wider text-ink-400 dark:text-cream-dim">
+              CATEGORY
+            </span>
+            {
+              categories.map((cat) => (
+                <a
+                  href={`/category/${cat.slug}/`}
+                  class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300"
+                >
+                  {cat.emoji} {cat.name}
+                </a>
+              ))
+            }
+          </nav>
+
+          <nav class="flex flex-col gap-2 text-sm" aria-label="サイト情報">
+            <span class="mb-1 text-xs font-semibold tracking-wider text-ink-400 dark:text-cream-dim">ABOUT</span>
+            <a href="/about" class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">このサイトについて</a>
+            <a href="/contact" class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">お問い合わせ</a>
+            <a href="/privacy" class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">プライバシーポリシー</a>
+            <a href="/rss.xml" class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">RSS</a>
           </nav>
         </div>
-        <nav class="mt-8 flex flex-wrap justify-center gap-x-5 gap-y-2 border-t border-slate-800 pt-8 text-sm" aria-label="カテゴリ">
-          {
-            categories.map((cat) => (
-              <a href={`/category/${cat.slug}/`} class="text-slate-400 transition hover:text-accent-400">
-                {cat.emoji} {cat.name}
-              </a>
-            ))
-          }
-        </nav>
-        <p class="mt-8 text-center text-xs text-slate-500">
-          &copy; {new Date().getFullYear()} かえりたくなる部屋. Built with Astro &amp; Tailwind CSS.
+
+        <p class="mt-12 border-t border-line pt-6 text-center text-xs text-ink-400 dark:border-night-line dark:text-cream-dim">
+          &copy; {year} {site.name}
         </p>
       </div>
     </footer>
