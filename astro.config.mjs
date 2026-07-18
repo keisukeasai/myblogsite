@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://myblogsite-8ip.pages.dev',
+  site: 'https://kaeritaku.com',
 
   vite: {
     plugins: [tailwindcss()]

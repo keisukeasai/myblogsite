@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://myblogsite-8ip.pages.dev/sitemap-index.xml
+Sitemap: https://kaeritaku.com/sitemap-index.xml
