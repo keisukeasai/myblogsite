@@ -6,6 +6,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import CategoryBadge from '../components/CategoryBadge.astro';
+import CategoryIcon from '../components/CategoryIcon.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import { getCategory, categories } from '../data/categories';
 import { site, activeSocials } from '../data/site';
@@ -148,25 +149,29 @@ const fmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month:
     </div>
   </section>
 
-  <!-- ⑤ カテゴリー -->
+  <!-- ⑤ カテゴリー(単色線画 + 余白中心。枠・背景塗り・影なし) -->
   <section class="mt-16 sm:mt-24">
-    <SectionTitle en="Categories" ja="カテゴリから探す" />
-    <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+    <SectionTitle en="Categories" ja="カテゴリから探す" align="left" />
+    <ul class="grid grid-cols-2 gap-x-4 gap-y-9 md:grid-cols-3 xl:grid-cols-6">
       {
         categories.map((cat) => (
-          <a
-            href={`/category/${cat.slug}/`}
-            class="group flex flex-col items-center gap-2 rounded-2xl border border-line bg-surface px-4 py-7 text-center transition hover:-translate-y-0.5 hover:border-accent-300 hover:shadow-md dark:border-night-line dark:bg-night-surface dark:hover:border-accent-700"
-          >
-            <span class="text-3xl transition-transform duration-300 group-hover:scale-110">{cat.emoji}</span>
-            <span class="text-sm font-bold text-ink-800 transition-colors group-hover:text-accent-700 dark:text-cream dark:group-hover:text-accent-300">
-              {cat.name}
-            </span>
-            <span class="text-xs text-ink-500 dark:text-cream-dim">{countByCategory[cat.slug]}件</span>
-          </a>
+          <li>
+            <a
+              href={`/category/${cat.slug}/`}
+              class="group flex min-h-11 flex-col items-center gap-3 rounded-xl px-2 py-3 text-center text-ink-900 transition duration-300 hover:-translate-y-0.5 hover:text-accent-700 dark:text-cream dark:hover:text-accent-300"
+            >
+              <CategoryIcon slug={cat.slug} class="h-11 w-11" />
+              <span class="text-sm font-bold underline-offset-4 group-hover:underline">
+                {cat.name}
+              </span>
+              <span class="text-xs font-medium text-ink-400 dark:text-cream-dim">
+                {countByCategory[cat.slug]}件
+              </span>
+            </a>
+          </li>
         ))
       }
-    </div>
+    </ul>
   </section>
 
   <!-- ⑥ SNS / 楽天ROOM 導線 -->

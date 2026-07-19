@@ -1,0 +1,47 @@
+---
+// カテゴリ一覧用の単色線画アイコン(手作業で再構成)。
+// 共通仕様: viewBox 0 0 24 24 / fill none / stroke currentColor / 線幅1.6 / round。
+// 色は currentColor 制御(塗り・差し色なし)。装飾のため aria-hidden。
+import type { CategorySlug } from '../data/categories';
+
+interface Props {
+  slug: CategorySlug;
+  class?: string;
+}
+const { slug, class: className } = Astro.props;
+
+// ImageGen 原案 (materials/brand/category-line-icons-imagegen-v1.png) の図柄を、
+// 少ないパスで Web 用に再構成。文字は描かない。
+const icons: Record<CategorySlug, string> = {
+  // 小型携帯デバイス(携帯ゲーム機の輪郭。ボタンは小さな点にとどめ、ゲーム固有表現を弱める)
+  gadget:
+    '<rect x="7" y="3" width="10" height="18" rx="2.6"/><rect x="9" y="5.4" width="6" height="6" rx="0.7"/><circle cx="10.2" cy="16.8" r="0.85"/><circle cx="13.8" cy="16.8" r="0.85"/>',
+  // 丸みのある椅子(原案の柔らかい輪郭を基準に。丸い背もたれ・座面・4本脚)
+  interior:
+    '<path d="M8 12v-3.4C8 6 16 6 16 8.6V12"/><path d="M6 16.2v-2.7c0-.9.6-1.5 1.5-1.5h9c.9 0 1.5.6 1.5 1.5v2.7"/><path d="M7 16.2 6.2 20.4"/><path d="M17 16.2 17.8 20.4"/><path d="M9.7 16.3 9.3 20.4"/><path d="M14.3 16.3 14.7 20.4"/>',
+  // デスクとモニター(小サイズで潰れないよう引き出しは省略)
+  desk:
+    '<rect x="8" y="3.6" width="8" height="5.6" rx="0.8"/><path d="M12 9.2v1.8"/><path d="M10.2 11h3.6"/><path d="M4.4 12.9h15.2"/><path d="M6.6 12.9V20"/><path d="M17.4 12.9V20"/>',
+  // 蓋付き収納ボックス
+  storage:
+    '<rect x="4.6" y="7.6" width="14.8" height="2.9" rx="0.7"/><path d="M6.1 10.5v5.9c0 .7.5 1.2 1.2 1.2h9.4c.7 0 1.2-.5 1.2-1.2v-5.9"/><path d="M10.4 13h3.2"/>',
+  // チェック入りカード(文字は使わず、カード・サムネイル枠・線・チェックで表現)
+  review:
+    '<rect x="4" y="6" width="16" height="12" rx="1.7"/><rect x="6.5" y="8.6" width="4" height="4" rx="0.6"/><path d="M12.4 9.7h5.1"/><path d="M12.4 11.9h4.1"/><path d="M6.5 15.2h5.1"/><path d="M13.6 15 15 16.4l2.4-2.9"/>',
+  // マグカップ
+  life:
+    '<ellipse cx="11" cy="7.6" rx="4" ry="1.2"/><path d="M7 7.6v7.9C7 16.9 8.1 18 9.5 18h3c1.4 0 2.5-1.1 2.5-2.5V7.6"/><path d="M15 9.8c2.6 0 2.6 3.5 0 3.5"/>',
+};
+---
+
+<svg
+  class={className}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.6"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  set:html={icons[slug]}
+></svg>
