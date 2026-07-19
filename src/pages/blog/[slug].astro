@@ -115,7 +115,7 @@ const dateFmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', mo
           href={`/category/${post.data.category}/`}
           class="rounded-full bg-accent-600 px-3 py-1 text-xs font-medium text-paper transition hover:bg-accent-700"
         >
-          <CategoryBadge slug={post.data.category} />
+          <CategoryBadge slug={post.data.category} variant="line" iconClass="h-4 w-4" />
         </a>
         <time datetime={post.data.pubDate.toISOString()} class="font-medium">{dateFmt(post.data.pubDate)}</time>
         {updated && <span class="text-ink-500 dark:text-cream-dim">(更新: {dateFmt(updated)})</span>}

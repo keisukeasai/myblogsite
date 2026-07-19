@@ -1,19 +1,28 @@
 ---
 import { getCategory } from '../data/categories';
+import CategoryIcon from './CategoryIcon.astro';
 
 interface Props {
   slug: string;
   class?: string;
+  /** アイコン表現。'emoji'(既定) / 'line'(トップと同じ線画マスク) / 'none'(名称のみ) */
+  variant?: 'emoji' | 'line' | 'none';
+  /** line 表示時のアイコンサイズ(Tailwind の h-/w- クラス) */
+  iconClass?: string;
 }
 
-const { slug, class: className = '' } = Astro.props;
+const { slug, class: className = '', variant = 'emoji', iconClass = 'h-4 w-4' } = Astro.props;
 const cat = getCategory(slug);
 ---
 
 {
   cat && (
     <span class={`inline-flex items-center gap-1 ${className}`}>
-      <span aria-hidden="true">{cat.emoji}</span>
+      {variant === 'line' ? (
+        <CategoryIcon slug={cat.slug} class={`${iconClass} shrink-0`} />
+      ) : variant === 'emoji' ? (
+        <span aria-hidden="true">{cat.emoji}</span>
+      ) : null}
       <span>{cat.name}</span>
     </span>
   )
