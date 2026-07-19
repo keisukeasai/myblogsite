@@ -158,10 +158,10 @@ const fmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month:
           <li>
             <a
               href={`/category/${cat.slug}/`}
-              class="group flex min-h-11 flex-col items-center gap-3 rounded-xl px-2 py-3 text-center text-ink-900 transition duration-300 hover:-translate-y-0.5 hover:text-accent-700 dark:text-cream dark:hover:text-accent-300"
+              class="group flex min-h-11 flex-col items-center gap-2.5 rounded-xl px-2 py-3 text-center text-ink-900 transition duration-300 hover:-translate-y-0.5 hover:text-accent-700 dark:text-cream dark:hover:text-accent-300"
             >
-              <CategoryIcon slug={cat.slug} class="h-11 w-11" />
-              <span class="text-sm font-bold underline-offset-4 group-hover:underline">
+              <CategoryIcon slug={cat.slug} class="h-12 w-12" />
+              <span class="text-sm font-semibold underline-offset-4 group-hover:underline">
                 {cat.name}
               </span>
               <span class="text-xs font-medium text-ink-400 dark:text-cream-dim">
