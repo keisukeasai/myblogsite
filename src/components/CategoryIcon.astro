@@ -1,7 +1,7 @@
 ---
-// カテゴリ一覧用の単色線画アイコン(手作業で再構成)。
-// 共通仕様: viewBox 0 0 24 24 / fill none / stroke currentColor / 線幅1.6 / round。
-// 色は currentColor 制御(塗り・差し色なし)。装飾のため aria-hidden。
+// カテゴリ一覧用アイコン。ImageGen 原案から抽出した透過PNGを CSS マスクとして表示し、
+// 色は background-color: currentColor で親リンクの文字色(ライト/ダーク/ホバー)に追従させる。
+// PNG は public/category-icons/ に原本のまま配置(再圧縮・再生成なし)。装飾のため aria-hidden。
 import type { CategorySlug } from '../data/categories';
 
 interface Props {
@@ -10,38 +10,34 @@ interface Props {
 }
 const { slug, class: className } = Astro.props;
 
-// ImageGen 原案 (materials/brand/category-line-icons-imagegen-v1.png) の図柄を、
-// 少ないパスで Web 用に再構成。文字は描かない。
-const icons: Record<CategorySlug, string> = {
-  // 小型携帯デバイス(携帯ゲーム機の輪郭。ボタンは小さな点にとどめ、ゲーム固有表現を弱める)
-  gadget:
-    '<rect x="7" y="3" width="10" height="18" rx="2.6"/><rect x="9" y="5.4" width="6" height="6" rx="0.7"/><circle cx="10.2" cy="16.8" r="0.85"/><circle cx="13.8" cy="16.8" r="0.85"/>',
-  // 丸みのある椅子(原案の2番目=ラウンジチェア基準。大きな丸い背もたれ・包み込む座面・4本脚)
-  interior:
-    '<path d="M7.4 13.6V9.4C7.4 6.1 16.6 6.1 16.6 9.4v4.2"/><path d="M6.3 15C6.3 13.7 7 13.2 8 13.4 10.6 13.9 13.4 13.9 16 13.4 17 13.2 17.7 13.7 17.7 15"/><path d="M6.6 15 9 16.4c2 1 4 1 6 0l2.4-1.4"/><path d="M7.4 15.6 6.4 20.4"/><path d="M16.6 15.6 17.6 20.4"/><path d="M10.2 16.4 9.7 20.4"/><path d="M13.8 16.4 14.3 20.4"/>',
-  // デスクとモニター(小サイズで潰れないよう引き出しは省略)
-  desk:
-    '<rect x="8" y="3.6" width="8" height="5.6" rx="0.8"/><path d="M12 9.2v1.8"/><path d="M10.2 11h3.6"/><path d="M4.4 12.9h15.2"/><path d="M6.6 12.9V20"/><path d="M17.4 12.9V20"/>',
-  // 蓋付き収納ボックス
-  storage:
-    '<rect x="4.6" y="7.6" width="14.8" height="2.9" rx="0.7"/><path d="M6.1 10.5v5.9c0 .7.5 1.2 1.2 1.2h9.4c.7 0 1.2-.5 1.2-1.2v-5.9"/><path d="M10.4 13h3.2"/>',
-  // チェック入りカード(文字は使わず、カード・サムネイル枠・線・チェックで表現)
-  review:
-    '<rect x="4" y="6" width="16" height="12" rx="1.7"/><rect x="6.5" y="8.6" width="4" height="4" rx="0.6"/><path d="M12.4 9.7h5.1"/><path d="M12.4 11.9h4.1"/><path d="M6.5 15.2h5.1"/><path d="M13.6 15 15 16.4l2.4-2.9"/>',
-  // マグカップ
-  life:
-    '<ellipse cx="11" cy="7.6" rx="4" ry="1.2"/><path d="M7 7.6v7.9C7 16.9 8.1 18 9.5 18h3c1.4 0 2.5-1.1 2.5-2.5V7.6"/><path d="M15 9.8c2.6 0 2.6 3.5 0 3.5"/>',
+// slug → ImageGen 透過PNGマスク(public 配下の配信パス)
+const masks: Record<CategorySlug, string> = {
+  gadget: '/category-icons/category-gadget-mask.png',
+  interior: '/category-icons/category-interior-mask.png',
+  desk: '/category-icons/category-desk-mask.png',
+  storage: '/category-icons/category-storage-mask.png',
+  review: '/category-icons/category-review-mask.png',
+  life: '/category-icons/category-life-mask.png',
 };
+const url = masks[slug];
 ---
 
-<svg
-  class={className}
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  stroke-width="1.6"
-  stroke-linecap="round"
-  stroke-linejoin="round"
+<span
+  class:list={['cat-mask', className]}
   aria-hidden="true"
-  set:html={icons[slug]}
-></svg>
+  style={`-webkit-mask-image:url("${url}");mask-image:url("${url}")`}
+></span>
+
+<style>
+  .cat-mask {
+    display: inline-block;
+    /* マスクの不透明部(=原案の線画)が現在の文字色で描かれる */
+    background-color: currentColor;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+</style>
