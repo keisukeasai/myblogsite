@@ -55,7 +55,7 @@ const fmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month:
         </p>
         <div class="mt-8">
           <a
-            href="/blog"
+            href="/blog/"
             class="inline-flex rounded-full bg-cream px-6 py-3.5 text-sm font-medium text-ink-900 shadow-sm transition hover:-translate-y-0.5 hover:bg-white sm:px-8"
           >
             記事を読む
@@ -68,7 +68,7 @@ const fmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month:
   <!-- 補助導線(ファーストビュー直下) -->
   <div class="mt-4 text-center sm:mt-5">
     <a
-      href="/founder"
+      href="/founder/"
       class="text-sm font-medium text-ink-500 underline-offset-4 transition hover:text-accent-700 hover:underline dark:text-cream-dim dark:hover:text-accent-300"
     >
       運営者について
@@ -151,7 +151,7 @@ const fmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month:
 
   <!-- ④ 最新記事 -->
   <section class="mt-16 sm:mt-24">
-    <SectionTitle en="Latest" ja="最新の記事" href="/blog" linkLabel="すべての記事" align="left" />
+    <SectionTitle en="Latest" ja="最新の記事" href="/blog/" linkLabel="すべての記事" align="left" />
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {latestPosts.map((post, i) => <PostCard post={post} priority={i < 3} />)}
     </div>

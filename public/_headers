@@ -1,0 +1,11 @@
+# Cloudflare Pages ヘッダー設定
+# セキュリティ系(全ページ)
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+
+# ハッシュ付きビルドアセットは不変キャッシュ
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

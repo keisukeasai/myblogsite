@@ -26,6 +26,8 @@ const {
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('http://localhost:4321');
+// X(Twitter)アカウントのハンドル(site.social.x の URL 末尾から導出。未設定なら出力しない)
+const xHandle = site.social.x ? `@${site.social.x.replace(/\/+$/, '').split('/').pop()}` : undefined;
 const canonical = new URL(Astro.url.pathname, siteUrl).href;
 // OG画像は指定があればそれ、なければブランド既定OGにフォールバック(全ページで確保)
 const ogImage = new URL(image ?? '/og-default.png', siteUrl).href;
@@ -95,6 +97,7 @@ const graph = [...baseJsonLd, ...jsonLd];
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
+{xHandle && <meta name="twitter:site" content={xHandle} />}
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImage} />

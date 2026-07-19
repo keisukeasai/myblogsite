@@ -15,7 +15,7 @@ export const site = {
   author: {
     name: 'かえる',
     role: '編集長 / かえりたくなる部屋 運営者',
-    url: '/founder',
+    url: '/founder/',
   },
 
   // SNS・外部導線。値を入れると各所にリンクが表示される(空なら非表示)。

@@ -54,7 +54,7 @@ const jsonLd = [
     datePublished: post.data.pubDate.toISOString(),
     dateModified: (updated ?? post.data.pubDate).toISOString(),
     ...(ogImage ? { image: new URL(ogImage, siteUrl).href } : {}),
-    author: { '@type': 'Person', name: site.author.name, url: new URL('/founder', siteUrl).href },
+    author: { '@type': 'Person', name: site.author.name, url: new URL('/founder/', siteUrl).href },
     publisher: { '@id': `${siteUrl.href}#organization` },
     mainEntityOfPage: pageUrl,
     articleSection: cat?.name,
