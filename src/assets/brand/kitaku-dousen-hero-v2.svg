@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  かえりたくなる部屋 / 看板記事「帰宅動線を整える」アイキャッチ（再編集可能ソース）
+  1280x670。文字・背景・図柄すべて編集可能。ラスタライズ:
+    node -e "const s=require('sharp');s('src/assets/brand/kitaku-dousen-hero-v2.svg').png().toFile('src/content/blog/images/kitaku-dousen-hero-v2.png')"
+  16:10カードで左右各約104pxがクロップされるため、重要要素は中央安全域(x120〜1160)に配置。左上バッジ域には主文言を置かない（中央寄せ）。
+  図柄＝本文の帰宅動線（玄関→鍵→バッグ→上着を定位置に戻す流れ）。実写は自宅・玄関の元写真が無いため抽象図案（架空写真は生成しない）。
+  配色: クリーム #F4F1E9 / チャコール #201F1C・#43503D / 準本文 #55524A / セージ #E6ECE2・#6E9E96。フォント Noto Sans JP。
+-->
+<svg width="1280" height="670" viewBox="0 0 1280 670" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="670" fill="#F4F1E9"/>
+  <g font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif" text-anchor="middle">
+    <text x="640" y="206" font-size="74" font-weight="700" fill="#201F1C">帰宅動線を、</text>
+    <text x="640" y="298" font-size="74" font-weight="700" fill="#201F1C">整える。</text>
+    <text x="640" y="360" font-size="29" font-weight="500" fill="#55524A">疲れた夜の散らかりを減らす仕組み</text>
+  </g>
+  <!-- 帰宅動線: 玄関 → 鍵 → バッグ → 上着 -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- フローの矢印(セージ) -->
+    <g stroke="#9DB6A6" stroke-width="4" fill="none">
+      <path d="M410 470 h30 m-8 -7 l8 7 l-8 7"/>
+      <path d="M630 470 h30 m-8 -7 l8 7 l-8 7"/>
+      <path d="M850 470 h30 m-8 -7 l8 7 l-8 7"/>
+    </g>
+    <!-- 玄関(ドア) -->
+    <g transform="translate(310,470)">
+      <circle r="40" fill="#E6ECE2"/>
+      <rect x="-15" y="-21" width="30" height="42" rx="3" fill="none" stroke="#43503D" stroke-width="3"/>
+      <circle cx="7" cy="0" r="2.6" fill="#43503D"/>
+    </g>
+    <!-- 鍵 -->
+    <g transform="translate(530,470)">
+      <circle r="40" fill="#E6ECE2"/>
+      <circle cx="-9" cy="-9" r="8" fill="none" stroke="#43503D" stroke-width="3"/>
+      <path d="M-4 -4 L16 16 M9 9 l6 -6 M13 13 l6 -6" stroke="#43503D" stroke-width="3" fill="none"/>
+    </g>
+    <!-- バッグ(トート) -->
+    <g transform="translate(750,470)">
+      <circle r="40" fill="#E6ECE2"/>
+      <path d="M-16 -6 h32 l-3 24 h-26 z" fill="none" stroke="#43503D" stroke-width="3"/>
+      <path d="M-8 -6 v-4 a8 8 0 0 1 16 0 v4" fill="none" stroke="#43503D" stroke-width="3"/>
+    </g>
+    <!-- 上着(ハンガー=掛ける) -->
+    <g transform="translate(970,470)">
+      <circle r="40" fill="#E6ECE2"/>
+      <path d="M0 -16 a5 5 0 0 1 4 8 l-4 3 l-20 12 h40 l-20 -12" fill="none" stroke="#43503D" stroke-width="3"/>
+    </g>
+  </g>
+  <g font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif" text-anchor="middle" font-size="23" font-weight="600" fill="#43503D">
+    <text x="310" y="552">玄関</text>
+    <text x="530" y="552">鍵</text>
+    <text x="750" y="552">バッグ</text>
+    <text x="970" y="552">上着</text>
+  </g>
+</svg>

@@ -5,8 +5,8 @@ pubDate: 2026-07-18
 category: storage
 tags: ["部屋づくり", "一人暮らし", "疲れても回る部屋", "収納", "帰宅動線"]
 featured: false
-image: ./images/kitaku-dousen-hero.png
-imageAlt: 「鍵・バッグ・上着の定位置を玄関に」という記事タイトルと、木製の壁掛けフックにトートバッグと上着、鍵が掛けられた明るい玄関のイメージ
+image: ./images/kitaku-dousen-hero-v2.png
+imageAlt: 「帰宅動線を、整える。」と「疲れた夜の散らかりを減らす仕組み」と書かれ、玄関・鍵・バッグ・上着の帰宅動線を図形で表した記事の見出し画像
 ---
 
 部屋が散らかるかどうかは、片付けの時間ではなく、帰宅してからの数十秒で決まっていました。

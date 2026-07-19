@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  かえりたくなる部屋 / 看板記事「疲れて帰っても回る部屋」アイキャッチ（再編集可能ソース）
+  1280x670。文字・背景・図柄すべて編集可能。ラスタライズ:
+    node -e "const s=require('sharp');s('src/assets/brand/tsukarete-hero-v2.svg').png().toFile('src/content/blog/images/tsukarete-hero-v2.png')"
+  16:10カードで左右各約104pxがクロップされるため、重要要素は中央安全域(x120〜1160)に配置。
+  左上のカテゴリバッジ領域には主文言を置かない（中央寄せ）。
+  3つの図柄＝本文「荒れる原因は3つ」に対応する3つの置き場（物／服／郵便物）。
+  配色: クリーム #F4F1E9 / チャコール #201F1C・#43503D / 準本文 #55524A / セージ #E6ECE2・#6E9E96。フォント Noto Sans JP。
+-->
+<svg width="1280" height="670" viewBox="0 0 1280 670" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1280" height="670" fill="#F4F1E9"/>
+  <!-- 主文言（中央寄せ・チャコール） -->
+  <g font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif" text-anchor="middle">
+    <text x="640" y="206" font-size="74" font-weight="700" fill="#201F1C">疲れて帰っても、</text>
+    <text x="640" y="298" font-size="74" font-weight="700" fill="#201F1C">回る部屋。</text>
+    <!-- 補助文言 -->
+    <text x="640" y="360" font-size="29" font-weight="500" fill="#55524A">散らかりを防ぐ3つの仕組み</text>
+  </g>
+  <!-- 3つの置き場（物／服／郵便物） -->
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <!-- 物の置き場（収納ボックス） -->
+    <g transform="translate(380,470)">
+      <circle r="42" fill="#E6ECE2"/>
+      <path d="M-20 -9 h40 l-3 25 h-34 z" fill="none" stroke="#43503D" stroke-width="3"/>
+      <path d="M-23 -9 h46" stroke="#43503D" stroke-width="3"/>
+      <path d="M-6 -2 h12" stroke="#43503D" stroke-width="3"/>
+    </g>
+    <!-- 服の置き場（Tシャツ） -->
+    <g transform="translate(640,470)">
+      <circle r="42" fill="#E6ECE2"/>
+      <path d="M-8 -16 l-13 7 l5 9 l6 -3 v19 h20 v-19 l6 3 l5 -9 l-13 -7 a8 7 0 0 1 -16 0 z" fill="#43503D"/>
+    </g>
+    <!-- 郵便物の置き場（封筒） -->
+    <g transform="translate(900,470)">
+      <circle r="42" fill="#E6ECE2"/>
+      <rect x="-21" y="-13" width="42" height="27" rx="3" fill="none" stroke="#43503D" stroke-width="3"/>
+      <path d="M-21 -9 l21 15 l21 -15" fill="none" stroke="#43503D" stroke-width="3"/>
+    </g>
+  </g>
+  <!-- ラベル -->
+  <g font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif" text-anchor="middle" font-size="23" font-weight="600" fill="#43503D">
+    <text x="380" y="556">物の置き場</text>
+    <text x="640" y="556">服の置き場</text>
+    <text x="900" y="556">郵便物の置き場</text>
+  </g>
+</svg>
