@@ -7,9 +7,8 @@ import PostCard from '../components/PostCard.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import CategoryBadge from '../components/CategoryBadge.astro';
 import CategoryIcon from '../components/CategoryIcon.astro';
-import SocialLinks from '../components/SocialLinks.astro';
 import { categories } from '../data/categories';
-import { site, activeSocials } from '../data/site';
+import { site } from '../data/site';
 
 const allPosts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
@@ -18,7 +17,6 @@ const featured = allPosts.filter((p) => p.data.featured);
 const mainFeatured = featured[0];
 const subFeatured = featured.slice(1, 3);
 const latestPosts = allPosts.slice(0, 6);
-const hasSocial = activeSocials().length > 0;
 
 const countByCategory = Object.fromEntries(
   categories.map((c) => [c.slug, allPosts.filter((p) => p.data.category === c.slug).length])
@@ -182,25 +180,95 @@ const fmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month:
     </ul>
   </section>
 
-  <!-- ⑥ SNS / 楽天ROOM 導線 -->
-  <section class="mt-16 rounded-3xl border border-line bg-surface px-6 py-14 text-center sm:mt-24 sm:px-12 dark:border-night-line dark:bg-night-surface">
-    <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent-600 dark:text-accent-300">
-      Follow
-    </p>
-    <h2 class="mt-3 text-xl font-bold tracking-tight text-ink-900 sm:text-2xl dark:text-cream">
-      暮らしのヒントを、日々お届け
-    </h2>
-    <p class="mx-auto mt-3 max-w-md text-sm leading-loose text-ink-500 dark:text-cream-dim">
-      使ってよかったモノや部屋づくりの記録は、各SNS・RSSでも発信しています。
-    </p>
-    <div class="mt-7 flex flex-col items-center gap-4">
-      {hasSocial && <SocialLinks variant="labeled" class="justify-center" />}
-      <a
-        href="/rss.xml"
-        class="inline-flex items-center gap-1.5 rounded-full border border-line px-5 py-2 text-sm font-medium text-ink-600 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:text-cream-dim dark:hover:border-accent-700 dark:hover:text-accent-300"
-      >
-        📡 RSSで購読する
-      </a>
+  <!-- ⑥ FOLLOW(主導線=X/Threads、補助導線=note/楽天ROOM/RSS) -->
+  <section class="mt-16 rounded-3xl border border-line bg-surface px-6 py-10 sm:mt-24 sm:px-10 sm:py-11 dark:border-night-line dark:bg-night-surface">
+    <div class="grid gap-8 md:grid-cols-2 md:items-center md:gap-12">
+      <!-- 左: ラベル・見出し・説明(左揃え) -->
+      <div>
+        <p class="font-display text-xs font-semibold uppercase tracking-[0.2em] text-accent-600 dark:text-accent-300">
+          FOLLOW
+        </p>
+        <h2 class="mt-3 text-xl font-bold tracking-tight text-ink-900 sm:text-2xl dark:text-cream">
+          帰りたくなる部屋の続きを、SNSで
+        </h2>
+        <p class="mt-3 max-w-md text-sm leading-loose text-ink-600 dark:text-cream-dim">
+          新着記事のお知らせと、疲れた日でも回る部屋づくりの小さな工夫を、XとThreadsで発信しています。
+        </p>
+      </div>
+
+      <!-- 右: 主導線(X/Threads)と補助導線(note/楽天ROOM/RSS) -->
+      <div>
+        <div class="flex flex-wrap gap-3">
+          {
+            site.social.x && (
+              <a
+                href={site.social.x}
+                target="_blank"
+                rel="me noopener noreferrer"
+                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-ink-900 px-5 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-ink-700 dark:bg-cream dark:text-night dark:hover:bg-white"
+              >
+                <svg viewBox="0 0 1200 1227" class="h-3.5 w-auto" fill="currentColor" role="img" aria-hidden="true">
+                  <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.934L144.011 79.6944H306.615L611.412 515.685L658.88 583.579L1055.08 1150.3H892.476L569.165 687.854V687.828Z" />
+                </svg>
+                Xでフォロー<span class="sr-only">（Xを新しいタブで開く）</span>
+              </a>
+            )
+          }
+          {
+            site.social.threads && (
+              <a
+                href={site.social.threads}
+                target="_blank"
+                rel="me noopener noreferrer"
+                class="inline-flex min-h-11 items-center justify-center gap-2 rounded-full bg-ink-900 px-5 py-3 text-sm font-medium text-paper transition hover:-translate-y-0.5 hover:bg-ink-700 dark:bg-cream dark:text-night dark:hover:bg-white"
+              >
+                <svg viewBox="0 0 976.98 1082" class="h-4 w-auto" fill="currentColor" role="img" aria-hidden="true">
+                  <path d="M770.35,500.35c-1.35-156.85-86.39-251.37-230.02-251.37-95.87,0-176.5,43.36-218.85,112.47l92.82,64.71c24.05-37.94,57.25-69.45,118.23-69.45,68.77,0,104.34,38.28,114.5,109.42-33.2-5.08-66.4-7.79-100.61-7.79-185.65,0-273.05,84.02-273.05,195.13s87.4,179.55,216.14,179.55c141.27,0,225.62-95.19,260.18-213.09,35.91,16.26,60.64,54.2,60.64,111.12,0,152.45-175.82,235.45-324.88,235.45-219.86,0-363.5-144.32-363.5-379.08,0-287.62,190.05-471.91,445.48-471.91,171.42,0,256.11,75.21,313.7,176.16l94.86-66.4C913.31,94.5,773.4,1,563.36,1,228.65,1,1,238.48,1,583.01c0,315.06,222.91,497.99,488.51,497.99,219.52,0,441.42-128.05,441.42-347.24,0-114.5-65.72-190.39-160.58-233.41h0ZM485.44,718.85c-48.44,0-91.13-23.04-91.13-65.38,0-66.74,81.98-87.06,162.27-87.06,30.49,0,60.3,2.03,86.72,7.79-18.97,86.72-75.21,144.66-157.87,144.66h0Z" />
+                </svg>
+                Threadsでフォロー<span class="sr-only">（Threadsを新しいタブで開く）</span>
+              </a>
+            )
+          }
+        </div>
+
+        <div class="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-sm">
+          {
+            site.social.note && (
+              <a
+                href={site.social.note}
+                target="_blank"
+                rel="me noopener noreferrer"
+                class="inline-flex min-h-11 items-center font-medium text-ink-600 underline-offset-4 transition hover:text-accent-700 hover:underline dark:text-cream-dim dark:hover:text-accent-300"
+              >
+                noteで読む<span class="sr-only">（noteを新しいタブで開く）</span>
+              </a>
+            )
+          }
+          {
+            site.social.rakutenRoom && (
+              <a
+                href={site.social.rakutenRoom}
+                target="_blank"
+                rel="me noopener noreferrer"
+                class="inline-flex min-h-11 items-center font-medium text-ink-600 underline-offset-4 transition hover:text-accent-700 hover:underline dark:text-cream-dim dark:hover:text-accent-300"
+              >
+                楽天ROOMで愛用品を見る<span class="sr-only">（楽天ROOMを新しいタブで開く）</span>
+              </a>
+            )
+          }
+          <a
+            href="/rss.xml"
+            class="inline-flex min-h-11 items-center gap-1.5 font-medium text-ink-600 underline-offset-4 transition hover:text-accent-700 hover:underline dark:text-cream-dim dark:hover:text-accent-300"
+          >
+            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 11a9 9 0 0 1 9 9" />
+              <path d="M4 4a16 16 0 0 1 16 16" />
+              <circle cx="5" cy="19" r="1.4" fill="currentColor" stroke="none" />
+            </svg>
+            RSSで更新を受け取る
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 </BaseLayout>
