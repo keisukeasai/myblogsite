@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  かえりたくなる部屋 / 通勤の暑さ対策 購入検討記事 アイキャッチ 文字レイヤー(再編集可能ソース)
+  1280x670。背景写真 summer-commute（AI生成イラスト）の左余白へ重ねる文字組み。
+  再現方法: sharp で背景を 1280x670(cover) にリサイズし、このSVGを composite する。
+    node -e "const s=require('sharp');s('src/assets/brand/summer-commute-bg-1280.jpg').composite([{input:'src/assets/brand/handy-fan-reon-pocket6-hero.svg'}]).jpeg({quality:88}).toFile('src/content/blog/images/handy-fan-reon-pocket6-hero.jpg')"
+  文字色: チャコール #201F1C / 準本文 #55524A / ブランド sage #6E9E96。フォント: Noto Sans JP。
+-->
+<svg width="1280" height="670" viewBox="0 0 1280 670" xmlns="http://www.w3.org/2000/svg">
+  <g font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif" text-anchor="start">
+    <text x="128" y="252" font-size="54" font-weight="700" fill="#201F1C">予算1万円で、</text>
+    <text x="128" y="326" font-size="54" font-weight="700" fill="#201F1C">通勤の暑さをどうする？</text>
+    <text x="130" y="398" font-size="25" font-weight="500" fill="#55524A">CIO Handy FanとREON POCKET 6を購入前に比較</text>
+    <text x="130" y="478" font-size="20" font-weight="600" fill="#6E9E96" letter-spacing="1.5">かえりたくなる部屋</text>
+  </g>
+</svg>
