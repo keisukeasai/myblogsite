@@ -1,12 +1,13 @@
 // ブログのカテゴリ定義(一元管理)。
-// slug が URL とフロントマターの値、name が表示名、emoji が一覧などのアイコン。
+// slug が URL とフロントマターの値、name が表示名。
+// カテゴリのアイコンは線画(CategoryIcon / public の PNG マスク)で表現する。
 export const categories = [
-  { slug: 'gadget', name: 'ガジェット', emoji: '📱' },
-  { slug: 'interior', name: 'インテリア', emoji: '🪑' },
-  { slug: 'desk', name: 'デスク環境', emoji: '🖥️' },
-  { slug: 'storage', name: '収納', emoji: '📦' },
-  { slug: 'review', name: 'レビュー', emoji: '⭐' },
-  { slug: 'life', name: '暮らし', emoji: '☕' },
+  { slug: 'gadget', name: 'ガジェット' },
+  { slug: 'interior', name: 'インテリア' },
+  { slug: 'desk', name: 'デスク環境' },
+  { slug: 'storage', name: '収納' },
+  { slug: 'review', name: 'レビュー' },
+  { slug: 'life', name: '暮らし' },
 ] as const;
 
 export type Category = (typeof categories)[number];

@@ -8,7 +8,7 @@ import SectionTitle from '../components/SectionTitle.astro';
 import CategoryBadge from '../components/CategoryBadge.astro';
 import CategoryIcon from '../components/CategoryIcon.astro';
 import SocialLinks from '../components/SocialLinks.astro';
-import { getCategory, categories } from '../data/categories';
+import { categories } from '../data/categories';
 import { site, activeSocials } from '../data/site';
 
 const allPosts = (await getCollection('blog')).sort(
@@ -113,9 +113,10 @@ const fmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', month:
               />
             ) : (
               <div class="thumb-zoom flex h-full min-h-56 w-full items-center justify-center">
-                <span aria-hidden="true" class="text-6xl opacity-25 grayscale">
-                  {getCategory(mainFeatured.data.category)?.emoji}
-                </span>
+                <CategoryIcon
+                  slug={mainFeatured.data.category}
+                  class="h-16 w-16 text-ink-400 opacity-40 dark:text-cream-dim"
+                />
               </div>
             )}
           </div>

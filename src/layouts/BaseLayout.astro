@@ -94,7 +94,7 @@ const navLinks = [
                 {
                   categories.map((cat) => (
                     <a href={`/category/${cat.slug}/`} class="rounded-xl px-4 py-2.5 text-sm text-ink-700 transition hover:bg-accent-50 hover:text-accent-700 dark:text-cream dark:hover:bg-night-surface dark:hover:text-accent-300">
-                      {cat.emoji} {cat.name}
+                      {cat.name}
                     </a>
                   ))
                 }
@@ -129,7 +129,7 @@ const navLinks = [
             {
               categories.map((cat) => (
                 <a href={`/category/${cat.slug}/`} class="text-ink-600 transition hover:text-accent-700 dark:text-cream-dim dark:hover:text-accent-300">
-                  {cat.emoji} {cat.name}
+                  {cat.name}
                 </a>
               ))
             }

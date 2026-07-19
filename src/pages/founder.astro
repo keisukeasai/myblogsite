@@ -107,9 +107,8 @@ const jsonLd = [
           categories.map((cat) => (
             <a
               href={`/category/${cat.slug}/`}
-              class="group flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-3 text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:bg-night-surface dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
+              class="group flex items-center justify-center rounded-xl border border-line bg-surface px-4 py-3 text-center text-sm font-medium text-ink-700 transition hover:border-accent-300 hover:text-accent-700 dark:border-night-line dark:bg-night-surface dark:text-cream dark:hover:border-accent-700 dark:hover:text-accent-300"
             >
-              <span class="text-lg">{cat.emoji}</span>
               {cat.name}
             </a>
           ))
