@@ -27,8 +27,9 @@ export const site = {
   },
 
   // お問い合わせ先(メール or フォームURL)。空なら準備中表示。
+  // 受信は Cloudflare Email Routing で管理用メールへ転送(転送先は非公開)。
   contact: {
-    email: '',
+    email: 'contact@kaeritaku.com',
     formUrl: '',
   },
 } as const;
