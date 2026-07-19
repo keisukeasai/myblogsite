@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  かえりたくなる部屋 / バンカーズボックス記事 アイキャッチ 文字レイヤー(再編集可能ソース)
+  背景素材: bankers-box-photo-hero-v2.png（運営者の実写写真＝クローゼット上のバンカーズボックスを元にした「AI補正版」）
+  再現方法: sharp で背景を 1280x670(cover) にリサイズ→このSVGを composite する。
+    node -e "const s=require('sharp');s('src/assets/brand/bankers-box-bg-1280.jpg').composite([{input:'src/assets/brand/bankers-box-hero-photo.svg'}]).jpeg({quality:88}).toFile('src/content/blog/images/bankers-box-hero-photo.jpg')"
+  文字は画像上部の明るい壁面へ配置。主文言=チャコール #201F1C、補助=より弱い #55524A。フォント Noto Sans JP。
+-->
+<svg width="1280" height="670" viewBox="0 0 1280 670" xmlns="http://www.w3.org/2000/svg">
+  <!-- 一覧カード(16:10)の左上カテゴリバッジと衝突しないよう、上部の壁面へ中央寄せで配置 -->
+  <g font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif" text-anchor="middle">
+    <text x="640" y="116" font-size="50" font-weight="700" fill="#201F1C">家具を増やさず、</text>
+    <text x="640" y="182" font-size="50" font-weight="700" fill="#201F1C">床から物を消す。</text>
+    <text x="640" y="232" font-size="24" font-weight="500" fill="#55524A">バンカーズボックスを5個使って分かったこと</text>
+  </g>
+</svg>

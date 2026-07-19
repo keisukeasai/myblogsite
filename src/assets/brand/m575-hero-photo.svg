@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  かえりたくなる部屋 / M575記事 アイキャッチ 文字レイヤー(再編集可能ソース)
+  背景素材: m575-photo-hero-v2.png（運営者の実写写真＝親指で青いトラックボールを操作する手元を元にした「AI補正版」）
+  再現方法: sharp で背景を 1280x670(cover) にリサイズ→このSVGを composite する。
+    node -e "const s=require('sharp');s('src/assets/brand/m575-bg-1280.jpg').composite([{input:'src/assets/brand/m575-hero-photo.svg'}]).jpeg({quality:88}).toFile('src/content/blog/images/m575-hero-photo.jpg')"
+  文字は左側の木製デスク余白へ配置。木製デスク側だけへ弱い暗色グラデーションを重ね、クリーム系文字の可読性を確保。フォント Noto Sans JP。
+-->
+<svg width="1280" height="670" viewBox="0 0 1280 670" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leftShade" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#141210" stop-opacity="0.56"/>
+      <stop offset="0.42" stop-color="#141210" stop-opacity="0.24"/>
+      <stop offset="0.72" stop-color="#141210" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1280" height="670" fill="url(#leftShade)"/>
+  <g font-family="'Noto Sans JP','Yu Gothic UI','Meiryo',sans-serif" text-anchor="start">
+    <text x="120" y="300" font-size="54" font-weight="700" fill="#F7F3EA">狭い机に、</text>
+    <text x="120" y="372" font-size="54" font-weight="700" fill="#F7F3EA">動かさないマウス。</text>
+    <text x="122" y="430" font-size="25" font-weight="500" fill="#E6E0D4">M575を1年以上使って分かったこと</text>
+  </g>
+</svg>
