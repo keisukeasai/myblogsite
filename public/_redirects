@@ -1,0 +1,3 @@
+# Cloudflare Pages リダイレクト設定
+# 間取り訂正(1LDK→1DK)に伴う記事URLの恒久転送
+/blog/black-wood-green-1ldk/ /blog/black-wood-green-1dk/ 301
