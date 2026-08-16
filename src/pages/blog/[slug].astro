@@ -7,6 +7,7 @@ import CategoryBadge from '../../components/CategoryBadge.astro';
 import CategoryIcon from '../../components/CategoryIcon.astro';
 import TableOfContents from '../../components/TableOfContents.astro';
 import ArticleCta from '../../components/ArticleCta.astro';
+import AffiliateNotice from '../../components/AffiliateNotice.astro';
 import AuthorCard from '../../components/AuthorCard.astro';
 import RelatedPosts from '../../components/RelatedPosts.astro';
 import { getCategory } from '../../data/categories';
@@ -137,6 +138,7 @@ const dateFmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', mo
           </div>
         )
       }
+      {post.data.affiliate && <AffiliateNotice />}
     </header>
   </div>
 
@@ -157,7 +159,7 @@ const dateFmt = (d: Date) => d.toLocaleDateString('ja-JP', { year: 'numeric', mo
         <Content />
       </div>
 
-      <ArticleCta />
+      <ArticleCta showRakuten={post.data.affiliate} />
       <AuthorCard />
     </div>
 

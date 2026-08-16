@@ -15,6 +15,10 @@ const blog = defineCollection({
       tags: z.array(z.string()).default([]),
       // トップの「おすすめ記事」に出す
       featured: z.boolean().default(false),
+      // アフィリエイト導線を出すか。true で冒頭のPR表記と記事末尾の楽天ROOM CTA を表示。
+      // 既定を true にしているのは、付け忘れたときに「表記なしで導線だけ出る」状態を防ぐため。
+      // 収益導線を持たないエッセイ・記録系の記事では明示的に false を指定する。
+      affiliate: z.boolean().default(true),
       // アイキャッチ画像(任意)。記事ファイルからの相対パスで指定する
       image: image().optional(),
       imageAlt: z.string().optional(),

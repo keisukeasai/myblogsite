@@ -1,8 +1,14 @@
 ---
 import { site, activeSocials } from '../data/site';
 
+interface Props {
+  /** 楽天ROOM（アフィリエイト導線）を表示するか */
+  showRakuten?: boolean;
+}
+const { showRakuten = true } = Astro.props;
+
 const socials = activeSocials();
-const rakuten = socials.find((s) => s.key === 'rakutenRoom');
+const rakuten = showRakuten ? socials.find((s) => s.key === 'rakutenRoom') : undefined;
 const follow = socials.filter((s) => s.key !== 'rakutenRoom');
 ---
 
